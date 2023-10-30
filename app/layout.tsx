@@ -17,8 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
-        <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-pie.min.js"></script>
         {children}
       </body>
 
