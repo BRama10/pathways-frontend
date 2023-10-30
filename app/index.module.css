@@ -1,0 +1,20 @@
+.topBackground {
+    background-color: #190d5c;
+    /* filter: blur(50px);
+    z-index: 0; */
+}
+
+.customYellow {
+    background: linear-gradient(90deg, #ffd79c, #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.customLogo {
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    letter-spacing: -0.03em;
+}
+
+.customBg {
+    background-color: rgba(255, 215, 156, 0.26);
+}
