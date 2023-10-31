@@ -24,7 +24,7 @@ export function PageBody({
   }, []);
 
   return (
-    <main id="page-body" className="flex min-h-max">
+    <main id="page-body" className="flex min-h-max max-w-screen-md h-full">
       {children}
     </main>
   );
@@ -103,7 +103,7 @@ export function ComponentA({
   }, []);
 
   return (
-    <section id='component-a' className={`${styles.topBackground} w-full h-auto`}>
+    <section id='component-a' className={`${styles.topBackground} w-full h-full flex flex-col`}>
       {children}
     </section>
   );

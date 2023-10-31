@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <PageBody>
       <ComponentA>
-        <h1 className="mt-40 ml-40 mb-40">
-          <p className="text-8xl font-bold text-white mb-5">MY</p>
+        <h1 className="pt-[5%] pl-[5%]">
+          <p className="text-8xl font-bold text-white pb-5">MY</p>
           <p className="text-8xl font-bold text-[#5f5ddc] mt-5 mb-10">PATHWAY</p>
           <p className="text-2xl text-left text-white mt-5">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
         </h1>
