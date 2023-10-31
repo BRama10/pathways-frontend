@@ -126,11 +126,6 @@ export function ComponentC({
     window.addEventListener('resize', useMDB);
     window.addEventListener('resize', useMDC);
 
-    useMD();
-    useMDA();
-    useMDB();
-    useMDC();
-
     return () => {
       window.removeEventListener('resize', useMD);
       window.removeEventListener('resize', useMDA);
