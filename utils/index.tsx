@@ -10,3 +10,4 @@ export default function mapDimensions(id: string) {
         myElement.style.width = computedWidth;
     }
 }
+

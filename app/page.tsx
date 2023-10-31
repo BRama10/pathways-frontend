@@ -2,14 +2,77 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import { ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps } from './components';
-import Vector1 from '../public/group1.svg'
+import { parseData, ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps } from './components';
+import React, { useState, useEffect } from 'react';
 
-const fairNode: FairNodeProps = {
+interface Location {
+  county: string;
+  state: string;
+}
 
+function parseLocationString(input: string): Location | false {
+  try {
+    // Split the input string by a comma and trim the resulting parts
+    const parts: string[] = input.split(',').map(part => part.trim());
+
+    // Check if we have exactly two parts (county and state)
+    if (parts.length !== 2) {
+      return false;
+    }
+
+    // Capitalize the first letter of the state
+    const county: string = parts[0][0].toUpperCase() + parts[0].slice(1).toLowerCase();
+    const state: string = parts[1][0].toUpperCase() + parts[1].slice(1).toLowerCase();
+
+    return { county, state };
+  } catch {
+    return false;
+  }
 }
 
 export default function Home() {
+  const ta: FairNodeProps = {}
+  const tb: FairNodeProps = {}
+
+  const [fetchedData, setFetchedData] = useState<DataProps>({
+    fairNodes: [ta, tb],
+    num_finalists: 0,
+    score: 0,
+  });
+  // Create a state variable to store the user's input
+  const [userInput, setUserInput] = useState('');
+
+  useEffect(() => {
+    const inp_data = parseLocationString(userInput);
+    if (inp_data) {
+      const { county, state } = inp_data;
+      // Define your API endpoint
+      const apiUrl = `http://localhost:8080/get_fair_list/${county}/${state}/`;
+
+      // Make the GET request
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          // Step 3: Update the state variable with the fetched data
+          // setFetchedData(data);
+          if (data.fair_data.length != 0) {
+            var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
+
+            const finalData: DataProps = {
+              fairNodes: cleanData,
+              num_finalists: data.num_finalists,
+              score: data.diff,
+            }
+
+            setFetchedData(finalData);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  }, [userInput]);
+
   return (
     <PageBody>
       <ComponentA>
@@ -26,6 +89,8 @@ export default function Home() {
               type="text"
               placeholder="Enter your county here."
               className="w-full p-4 text-[18px] text-white bg-transparent focus:outline-none"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
             />
           </div>
           <section className="grid grid-cols-2">
@@ -33,7 +98,7 @@ export default function Home() {
               <div className="rounded-3xl shadow-customB flex justify-end box-border bg-[#141414] w-14 h-40 text-center rotate-90 origin-center self-center">
                 <p className="rotate-[270deg] origin-center text-white self-center font-bold text-2xl pt-14">Difficulty*</p>
               </div>
-              <DifficultyComponent fairNodes={[fairNode, fairNode]} />
+              <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
               <div className='pl-12 self-end self-left w-full h-auto grid grid-cols-1'>
                 <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[200px] blur-md`}>ISEF</h1>
                 <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[200px]`}>ISEF</h1>

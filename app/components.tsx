@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import mapDimensions from '../utils';
 import styles from './index.module.css';
 import Key from '../public/key.svg'
@@ -7,6 +7,41 @@ import { Pie } from 'react-chartjs-2';
 
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 Chart.register(ArcElement, Tooltip, Legend);
+
+export function parseData(data: any): FairNodeProps {
+  // Use type assertions to map properties
+  const parsedData: FairNodeProps = {
+    title: data.name,
+    code: data.code,
+    contact: data.contact_name,
+    email: data.email,
+    website: data.website,
+    isStart: false,
+  };
+
+  return parsedData;
+}
+
+
+export interface FairNodeProps {
+  title?: string | undefined;
+  code?: string | undefined;
+  website?: string | undefined;
+  contact?: string | undefined;
+  isStart?: boolean | undefined;
+  email?: string | undefined;
+}
+
+export interface DataProps {
+  fairNodes?: FairNodeProps[] | undefined;
+  num_finalists?: number | undefined;
+  score?: number | undefined;
+}
+
+export interface ContactNodeProps {
+  names?: string[] | undefined;
+  emails?: string[] | undefined;
+}
 
 export function PageBody({
   children,
@@ -31,18 +66,6 @@ export function PageBody({
   );
 }
 
-export interface FairNodeProps {
-  title?: string | undefined;
-  code?: string | undefined;
-  website?: string | undefined;
-  contact?: string | undefined;
-  isStart?: boolean | undefined;
-  email?: string | undefined;
-}
-
-interface FairNodeListProps {
-  fairNodes?: FairNodeProps[] | undefined;
-}
 
 export const FairNode: React.FC<FairNodeProps> = ({
   title = 'ISEF-Affiliated Regional Fair',
@@ -50,7 +73,7 @@ export const FairNode: React.FC<FairNodeProps> = ({
   website = 'www.randomfair.org',
   contact = 'Jane Doe',
   isStart = false,
-  email = 'email@email.org'
+  email = 'email@email.org',
 }) => {
   useEffect(() => {
 
@@ -155,7 +178,11 @@ export function ComponentC({
   );
 }
 
-export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) => {
+export const DifficultyComponent: React.FC<DataProps> = ({ 
+  fairNodes = [],
+  score = 8.0,
+  num_finalists = 0, 
+}) => {
   useEffect(() => {
 
     const useMD = () => mapDimensions('diff-component');
@@ -193,7 +220,7 @@ export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [
           <div id = 'comp-lvl-1-b' className="grid grid-cols-1 self-center w-full">
             <div className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[31px] self-center justify-self-center"></div>
-            <div className="row-start-1 col-start-1 font-bold text-white text-8xl self-center justify-self-center z-10">8.5</div>
+            <div className="row-start-1 col-start-1 font-bold text-white text-8xl self-center justify-self-center z-10">{ score }</div>
           </div>
         </section>
         <section id='comp-lvl-2' className="w-1/4 flex flex-col">
@@ -207,7 +234,7 @@ export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [
           <div id = 'comp-lvl-2-b' className="grid grid-cols-1 w-full pt-8">
             <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[31px] self-center justify-self-center"></div>
-            <div className=" row-start-1 col-start-1 font-bold text-white text-6xl self-center justify-self-center z-10">8.5</div>
+            <div className=" row-start-1 col-start-1 font-bold text-white text-6xl self-center justify-self-center z-10">{ num_finalists }</div>
           </div>
         </section>
       </section>
@@ -219,7 +246,7 @@ export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [
 }
 
 
-export const ChartComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) => {
+export const ChartComponent: React.FC<DataProps> = ({ fairNodes = [] }) => {
   const data = {
     labels: [
       'Red',
@@ -273,11 +300,6 @@ export const ChartComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) 
       </section>
     </>
   );
-}
-
-export interface ContactNodeProps {
-  names?: string[] | undefined;
-  emails?: string[] | undefined;
 }
 
 export const ContactComponent: React.FC<ContactNodeProps> = ({
