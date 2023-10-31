@@ -12,22 +12,22 @@ export default function Home() {
   return (
     <PageBody>
       <ComponentA>
-        <h1 className="pt-[5%] pl-[5%]">
-          <p className="text-8xl font-bold text-white pb-5">MY</p>
-          <p className="text-8xl font-bold text-[#5f5ddc] mt-5 mb-10">PATHWAY</p>
-          <p className="text-2xl text-left text-white mt-5">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
+        <h1  id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%]">
+          <p className="text-8xl font-bold text-white pb-[5%]">MY</p>
+          <p className="text-8xl font-bold text-[#5f5ddc] pb-[2%] pb-[5%]">PATHWAY</p>
+          <p className="text-2xl text-left text-white pt-[2%]">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
         </h1>
 
-        <h1 className="text-5xl text-white font-bold text-center mt-50 mb-20">Your journey begins <span className="text-[#e5be58]">here</span>.</h1>
+        <h1 className="text-5xl text-white font-bold text-center self-center pb-[5%] pt-[5%]">Your journey begins <span className="text-[#e5be58]">here</span>.</h1>
         <ComponentC>
-        <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
-              <input
-                type="text"
-                placeholder="Enter your county here."
-                className="w-full p-4 text-[18px] text-white bg-transparent focus:outline-none"
-              />
-            </div>
-            <section className="grid grid-cols-2">
+          <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
+            <input
+              type="text"
+              placeholder="Enter your county here."
+              className="w-full p-4 text-[18px] text-white bg-transparent focus:outline-none"
+            />
+          </div>
+          <section className="grid grid-cols-2">
             <div className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex justify-end box-border bg-[#141414] w-14 h-40 text-center rotate-90 origin-center self-center">
                 <p className="rotate-[270deg] origin-center text-white self-center font-bold text-2xl pt-14">Difficulty*</p>
