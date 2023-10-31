@@ -4,7 +4,7 @@ import styles from './index.module.css';
 import Key from '../public/key.svg'
 import { Pie } from 'react-chartjs-2';
 
-import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 Chart.register(ArcElement, Tooltip, Legend);
 
 export function PageBody({
@@ -24,7 +24,7 @@ export function PageBody({
   }, []);
 
   return (
-    <main id="page-body" className="flex min-h-screen">
+    <main id="page-body" className="flex min-h-max">
       {children}
     </main>
   );
@@ -71,9 +71,9 @@ export const FairNode: React.FC<FairNodeProps> = ({
         <div className="rounded-[50%] border-8 border-solid border-[#5da6dc] w-[40px] aspect-square"></div>
         <div className="border-4 border-solid border-[#5da6dc] w-[8px] h-[90px] box-border ml-4"></div>
       </div>
-      <div id="node-a" className="flex flex-col w-[87%] h-auto">
+      <div id="node-a" className="flex flex-col w-[87%] h-full">
         <h1 className={`${styles.customYellow} font-normal text-3xl pb-2`}>{title}</h1>
-        <div className="flex flex-row justify-between w-full pt-px pb-px">
+        <div className="flex flex-row justify-between w-3/4 pt-px pb-px">
           <h2 className="font-bold text-xl text-white">{code}</h2>
           <h2 className="font-normal text-xl text-white">Contact: {contact}</h2>
         </div>
@@ -109,6 +109,46 @@ export function ComponentA({
   );
 }
 
+export function ComponentC({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  useEffect(() => {
+
+    const useMD = () => mapDimensions('component-c');
+    const useMDA = () => mapDimensions('component-c-a');
+    const useMDB = () => mapDimensions('component-c-b');
+    const useMDC = () => mapDimensions('component-c-b-a');
+
+    window.addEventListener('resize', useMD);
+    window.addEventListener('resize', useMDA);
+    window.addEventListener('resize', useMDB);
+    window.addEventListener('resize', useMDC);
+
+    useMD();
+    useMDA();
+    useMDB();
+    useMDC();
+
+    return () => {
+      window.removeEventListener('resize', useMD);
+      window.removeEventListener('resize', useMDA);
+      window.removeEventListener('resize', useMDB);
+      window.removeEventListener('resize', useMDC);
+    };
+  }, []);
+
+  return (
+    <section id='component-c' className="grid-cols-1 h-auto w-auto grid">
+      <section id='component-c-a' className={`blur-[50px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full mt-20 bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
+      <section id='component-c-b' className={`row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full mt-20 bg-black rounded-[54px] shadow-customA z-10 flex flex-col`}>
+        {children}
+      </section>
+    </section>
+  );
+}
+
 export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) => {
   useEffect(() => {
 
@@ -138,15 +178,15 @@ export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [
             <div className="row-start-1 col-start-1 font-bold text-white text-8xl self-center justify-self-center z-10">8.5</div>
           </div>
         </section>
-        <section id='comp-lvl-2' className="w-1/4">  
+        <section id='comp-lvl-2' className="w-1/4">
           <div className="font-bold text-[#39c783] self-center text-4xl mb-8">2024</div>
-          <div className="grid grid-cols-1 w-full">
-            <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[31px] self-center justify-self-center mb-14"></div>
-            <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[31px] self-center justify-self-center mb-14"></div>
+          <div className="grid grid-cols-1 w-full pb-12">
+            <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[31px] self-center justify-self-center"></div>
+            <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[31px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-6xl self-center justify-self-center z-10">8.5</div>
           </div>
           <div className="font-bold text-[#5da6dc] self-center text-2xl mb-49">FINALISTS</div>
-          <div className="grid grid-cols-1 w-full">
+          <div className="grid grid-cols-1 w-full pt-8">
             <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[31px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-6xl self-center justify-self-center z-10">8.5</div>
@@ -171,14 +211,14 @@ export const ChartComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) 
     datasets: [{
       data: [300, 50, 100],
       backgroundColor: [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56'
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
       ],
       hoverBackgroundColor: [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56'
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
       ]
     }]
   };
@@ -186,7 +226,7 @@ export const ChartComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) 
   useEffect(() => {
 
     function useMD() {
-      
+
       mapDimensions('chart-component');
     }
 
@@ -200,17 +240,17 @@ export const ChartComponent: React.FC<FairNodeListProps> = ({ fairNodes = [] }) 
     };
   }, []);
 
-  
+
 
   return (
     <>
       <section id='chart-component' className={`flex w-full h-auto mb-20`}>
         {/* <div className="container w-auto h-auto max-height-full min-height-full"> */}
         <Pie
-			data={data}
-			width={400}
-			height={400}
-		/>
+          data={data}
+          width={400}
+          height={400}
+        />
         {/* </div> */}
       </section>
     </>
@@ -222,9 +262,9 @@ export interface ContactNodeProps {
   emails?: string[] | undefined;
 }
 
-export const ContactComponent: React.FC<ContactNodeProps> = ({ 
+export const ContactComponent: React.FC<ContactNodeProps> = ({
   names = ['Jane Doe'],
-  emails = ['example@mail.com'] 
+  emails = ['example@mail.com']
 }) => {
   useEffect(() => {
     const useMD = () => mapDimensions('contact-component');
@@ -239,19 +279,19 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
     };
   }, []);
 
-  
+
 
   return (
     <>
       <section id='contact-component h-[100px]' className={`flex flex-col`}>
         <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-xl text-white`}>
-        {names.map((name, index) => (
-          <>
-            <div key={`${index}-name`}>{name} -</div>
-            <div key={`${index}-contact`}>{emails.at(index)}</div>
-            <br></br>
-          </>
-        ))}
+          {names.map((name, index) => (
+            <>
+              <div key={`${index}-name`}>{name} -</div>
+              <div key={`${index}-contact`}>{emails.at(index)}</div>
+              <br></br>
+            </>
+          ))}
         </div>
       </section>
     </>
