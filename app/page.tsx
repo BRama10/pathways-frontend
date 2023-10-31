@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import styles from './index.module.css';
 import { ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps } from './components';
+import Vector1 from '../public/group1.svg'
 
 const fairNode: FairNodeProps = {
 
@@ -12,7 +13,7 @@ export default function Home() {
   return (
     <PageBody>
       <ComponentA>
-        <h1  id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%]">
+        <h1 id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%]">
           <p className="text-8xl font-bold text-white pb-[5%]">MY</p>
           <p className="text-8xl font-bold text-[#5f5ddc] pb-[2%] pb-[5%]">PATHWAY</p>
           <p className="text-2xl text-left text-white pt-[2%]">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
@@ -28,7 +29,7 @@ export default function Home() {
             />
           </div>
           <section className="grid grid-cols-2">
-            <div className="flex flex-col">
+            <div id='tmp-id-a' className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex justify-end box-border bg-[#141414] w-14 h-40 text-center rotate-90 origin-center self-center">
                 <p className="rotate-[270deg] origin-center text-white self-center font-bold text-2xl pt-14">Difficulty*</p>
               </div>
@@ -39,7 +40,7 @@ export default function Home() {
               </div>
 
             </div>
-            <div className="flex flex-col pt-6 pb-4">
+            <div id='tmp-id-b' className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
                 <div className="text-white self-center font-bold text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
               </div>
@@ -55,10 +56,11 @@ export default function Home() {
             </div>
           </section>
         </ComponentC>
-        {/* <img src='/group.svg'></img>
+        {/* <img style={{visibility: 'invisible'}} src='/group.svg'></img>
         <img src='/group1.svg'></img>
         <img src='/group2.svg'></img> */}
       </ComponentA>
+
     </PageBody>
   )
 }

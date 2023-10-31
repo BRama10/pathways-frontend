@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import mapDimensions from '../utils';
 import styles from './index.module.css';
 import Key from '../public/key.svg'
+import Vector1 from '../public/group1.svg'
 import { Pie } from 'react-chartjs-2';
 
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
@@ -123,23 +124,30 @@ export function ComponentC({
     const useMDA = () => mapDimensions('component-c-a');
     const useMDB = () => mapDimensions('component-c-b');
     const useMDC = () => mapDimensions('component-c-b-a');
+    const useMDTA = () => mapDimensions('tmp-id-a');
+    const useMDTB = () => mapDimensions('tmp-id-b');
+
 
     window.addEventListener('resize', useMD);
     window.addEventListener('resize', useMDA);
     window.addEventListener('resize', useMDB);
     window.addEventListener('resize', useMDC);
+    window.addEventListener('resize', useMDTA);
+    window.addEventListener('resize', useMDTB);
 
     return () => {
       window.removeEventListener('resize', useMD);
       window.removeEventListener('resize', useMDA);
       window.removeEventListener('resize', useMDB);
       window.removeEventListener('resize', useMDC);
+      window.removeEventListener('resize', useMDTA);
+      window.removeEventListener('resize', useMDTB);
     };
   }, []);
 
   return (
-    <section id='component-c' className="grid-cols-1 h-auto w-auto grid">
-      <section id='component-c-a' className={`blur-[50px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
+    <section id='component-c' className="grid-cols-1 h-auto w-5/6 grid self-center mb-[5%]">
+      <section id='component-c-a' className={`blur-[100px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
       <section id='component-c-b' className={`row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%]  bg-black rounded-[54px] shadow-customA z-10 flex flex-col`}>
         {children}
       </section>
@@ -151,40 +159,52 @@ export const DifficultyComponent: React.FC<FairNodeListProps> = ({ fairNodes = [
   useEffect(() => {
 
     const useMD = () => mapDimensions('diff-component');
-    const useMDA = () => mapDimensions('comp-lvl-1');
-    const useMDB = () => mapDimensions('comp-lvl-2');
+    // const useMDA = () => mapDimensions('comp-lvl-1');
+    // const useMDB = () => mapDimensions('comp-lvl-2');
+    // const useMDC = () => mapDimensions('comp-lvl-1-a');
+    // const useMDD = () => mapDimensions('comp-lvl-1-b');
+    // const useMDE = () => mapDimensions('comp-lvl-2-a');
+    // const useMDF = () => mapDimensions('comp-lvl-2-b');
 
-    window.addEventListener('resize', useMD);
-    window.addEventListener('resize', useMDA);
-    window.addEventListener('resize', useMDB);
+    // window.addEventListener('resize', useMD);
+    // window.addEventListener('resize', useMDA);
+    // window.addEventListener('resize', useMDB);
+    // window.addEventListener('resize', useMDC);
+    // window.addEventListener('resize', useMDD);
+    // window.addEventListener('resize', useMDE);
+    // window.addEventListener('resize', useMDF);
 
-    return () => {
-      window.removeEventListener('resize', useMD);
-      window.removeEventListener('resize', useMDA);
-      window.removeEventListener('resize', useMDB);
-    };
+    // return () => {
+    //   window.removeEventListener('resize', useMD);
+    //   window.removeEventListener('resize', useMDA);
+    //   window.removeEventListener('resize', useMDB);
+    //   window.removeEventListener('resize', useMDC);
+    //   window.removeEventListener('resize', useMDD);
+    //   window.removeEventListener('resize', useMDE);
+    //   window.removeEventListener('resize', useMDF);
+    // };
   }, []);
 
   return (
     <>
-      <section id='diff-component' className={`flex w-full h-auto mb-20`}>
+      <section id='diff-component' className={`flex w-full h-auto pb-[5%]`}>
         <section id='comp-lvl-1' className="flex w-3/4 flex-col justify-around">
-          <div className="font-bold text-[#e5be58] self-center text-4xl mb-8">2023</div>
-          <div className="grid grid-cols-1">
+          <div id = 'comp-lvl-1-a' className="font-bold text-[#e5be58] self-center text-4xl mb-8">2023</div>
+          <div id = 'comp-lvl-1-b' className="grid grid-cols-1 self-center w-full">
             <div className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[31px] self-center justify-self-center"></div>
             <div className="row-start-1 col-start-1 font-bold text-white text-8xl self-center justify-self-center z-10">8.5</div>
           </div>
         </section>
-        <section id='comp-lvl-2' className="w-1/4">
-          <div className="font-bold text-[#39c783] self-center text-4xl mb-8">2024</div>
-          <div className="grid grid-cols-1 w-full pb-12">
+        <section id='comp-lvl-2' className="w-1/4 flex flex-col">
+          <div className="font-bold text-[#39c783] self-center text-4xl pb-[2%]">2024</div>
+          <div id = 'comp-lvl-2-a' className="grid grid-cols-1 w-full pb-12">
             <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[31px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-6xl self-center justify-self-center z-10">8.5</div>
           </div>
-          <div className="font-bold text-[#5da6dc] self-center text-2xl mb-49">FINALISTS</div>
-          <div className="grid grid-cols-1 w-full pt-8">
+          <div className="font-bold text-[#5da6dc] self-center text-2xl pb-[2%]">FINALISTS</div>
+          <div id = 'comp-lvl-2-b' className="grid grid-cols-1 w-full pt-8">
             <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[31px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-6xl self-center justify-self-center z-10">8.5</div>
