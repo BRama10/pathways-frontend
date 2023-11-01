@@ -93,10 +93,10 @@ export default function Home() {
               onChange={(e) => setUserInput(e.target.value)}
             />
           </div>
-          <section className="grid grid-cols-2 pt-[3%]">
+          <section className="grid grid-cols-2 pt-[3%] gap-x-2">
             <div id='tmp-id-a' className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center">Difficulty*</div>
+                <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
               </div>
               <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
               <div className='pl-12 self-end self-left w-full h-auto grid grid-cols-1'>
@@ -107,7 +107,7 @@ export default function Home() {
             </div>
             <div id='tmp-id-b' className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+                <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
               </div>
               <ChartComponent />
 
