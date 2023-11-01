@@ -93,15 +93,15 @@ export default function Home() {
               onChange={(e) => setUserInput(e.target.value)}
             />
           </div>
-          <section className="grid grid-cols-2 pt-[3%] gap-x-2">
+          <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
             <div id='tmp-id-a' className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                 <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
               </div>
               <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
               <div className='pl-12 self-end self-left w-full h-auto grid grid-cols-1'>
-                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-md:text-[200px] blur-md`}>ISEF</h1>
-                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} md:text-[200px]`}>ISEF</h1>
+                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
               </div>
 
             </div>
@@ -112,7 +112,7 @@ export default function Home() {
               <ChartComponent />
 
               <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
-                <div className="text-white self-center font-bold text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
               </div>
               <ContactComponent />
 

@@ -324,7 +324,7 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
   return (
     <>
       <section id='contact-component h-[100px]' className={`flex flex-col`}>
-        <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-xl text-white`}>
+        <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-xs md:text-xl text-white`}>
           {names.map((name, index) => (
             <>
               <div key={`${index}-name`}>{name} -</div>
