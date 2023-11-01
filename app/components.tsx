@@ -90,19 +90,19 @@ export const FairNode: React.FC<FairNodeProps> = ({
   }, []);
 
   return (
-    <div id="fair-list" className="flex w-full h-auto flex-row pl-20 pb-8">
+    <div id="fair-list" className="flex w-full h-auto flex-row pl-3 pb-2 md:pl-20 md:pb-8">
       <div className="w-[13%] h-auto">
-        <div className="rounded-[50%] border-8 border-solid border-[#5da6dc] w-[40px] aspect-square"></div>
-        <div className="border-4 border-solid border-[#5da6dc] w-[8px] h-[90px] box-border ml-4"></div>
+        <div className="rounded-[50%] border-4 md:border-8 border-solid border-[#5da6dc] w-[20px] md:w-[40px] aspect-square"></div>
+        <div className="border-2 md:border-4 border-solid border-[#5da6dc] w-[4px] md:w-[8px] h-[85%] box-border ml-2 md:ml-4"></div>
       </div>
-      <div id="node-a" className="flex flex-col w-[87%] h-full">
-        <h1 className={`${styles.customYellow} font-normal text-3xl pb-2`}>{title}</h1>
-        <div className="grid grid-cols-2 justify-between w-3/4 pt-px pb-px">
-          <h2 className="col-start-1 row-start-1 font-bold text-xl text-white">{code}</h2>
-          <h2 className="col-start-2 row-start-1 font-normal text-xl text-white">Contact: {contact}</h2>
+      <div id="node-a" className="flex flex-col w-full h-full">
+        <h1 className={`${styles.customYellow} font-bold md:font-normal text-sm md:text-3xl pb-2 pl-4`}>{title}</h1>
+        <div className="grid grid-cols-2 justify-between w-full pt-px pb-px">
+          <h2 className="col-start-1 row-start-1 font-bold text-[0.5rem] md:text-lg text-white">{code}</h2>
+          <h2 className="col-start-2 row-start-1 font-normal text-[0.5rem] md:text-lg text-white">Contact: {contact}</h2>
         </div>
-        <h2 className="font-normal text-xl text-white pt-px pb-px">{website}</h2>
-        <h2 className="font-normal text-xl text-white pt-px">{email}</h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline"><a href={website}>Website</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline"><a href={email}>Email</a></h2>
       </div>
 
     </div>

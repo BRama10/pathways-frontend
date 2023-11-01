@@ -100,8 +100,8 @@ export default function Home() {
               </div>
               <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
               <div className='pl-12 self-end self-left w-full h-auto grid grid-cols-1'>
-                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[200px] blur-md`}>ISEF</h1>
-                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[200px]`}>ISEF</h1>
+                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-md:text-[200px] blur-md`}>ISEF</h1>
+                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} md:text-[200px]`}>ISEF</h1>
               </div>
 
             </div>
