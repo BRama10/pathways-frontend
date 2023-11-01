@@ -47,7 +47,7 @@ export default function Home() {
     if (inp_data) {
       const { county, state } = inp_data;
       // Define your API endpoint
-      const apiUrl = `http://localhost:8080/get_fair_list/${county}/${state}/`;
+      const apiUrl = `https://pathways-backend-3bo8j60g3-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
 
       // Make the GET request
       fetch(apiUrl)
