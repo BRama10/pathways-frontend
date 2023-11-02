@@ -96,13 +96,13 @@ export default function Home() {
     <PageBody>
       <ComponentA>
         <div id='top-container' className={`w-full grid grid-cols-1`}>
-          <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}>
-            <img src='/group2.svg' className="row-start-1 col-start-3 row-end-3 w-full h-auto"></img>
-            <img src='/group1.svg' className="row-start-1 col-start-2"></img>
-            <img src='/group.svg' className="row-start-1 col-start-2"></img>
-          </div>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
-          <div id='top-text' className='w-full row-start-1 col-start-1'>
+          <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}></div>
+          {/* <img src='/group2.svg' className="absolute top-[1px] left-[5px]"></img>
+            <img src='/group1.svg' className="row-start-1 col-start-2"></img>
+            <img src='/group.svg' className="row-start-1 col-start-2"></img> */}
+
+          <div id='top-text' className='w-full row-start-1 col-start-1 flex flex-col '>
             <h1 id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%] z-10">
               <p className="text-5xl md:text-8xl font-bold text-white">MY</p>
               <p className="text-5xl md:text-8xl font-bold text-[#5f5ddc] pb-[1%]">PATHWAY</p>
@@ -130,7 +130,7 @@ export default function Home() {
               </datalist>
             </div>
             <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
-              <div id='tmp-id-a' className="flex flex-col">
+              <div id='tmp-id-a' className="flex flex-col flex-start">
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                   <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
                 </div>

@@ -5,8 +5,8 @@
 }
 
 .topBackgroundFilter {
-    /* background-color: rgba(34, 16, 141, 0.72);
-    filter: blur(50px); */
+    background-color: rgba(34, 16, 141, 0.72);
+    filter: blur(50px);
 }
 
 .bottomBackground {
