@@ -4,6 +4,15 @@
     z-index: 0; */
 }
 
+.topBackgroundFilter {
+    /* background-color: rgba(34, 16, 141, 0.72);
+    filter: blur(50px); */
+}
+
+.bottomBackground {
+    background-color: #141414;
+}
+
 .customYellow {
     background: linear-gradient(90deg, #ffd79c, #fff);
     -webkit-background-clip: text;

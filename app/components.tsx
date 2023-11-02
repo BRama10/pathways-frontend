@@ -130,7 +130,7 @@ export function ComponentA({
   }, []);
 
   return (
-    <section id='component-a' className={`${styles.topBackground} w-full h-full flex flex-col`}>
+    <section id='component-a' className={`w-full h-full flex flex-col`}>
       {children}
     </section>
   );
@@ -172,7 +172,7 @@ export function ComponentC({
   }, []);
 
   return (
-    <section id='component-c' className="grid-cols-1 h-auto w-5/6 grid self-center mb-[5%]">
+    <section id='component-c' className={`grid-cols-1 h-auto w-5/6 grid self-center mb-[5%] pt-[3%]`}>
       <section id='component-c-a' className={`blur-[50px] md:blur-[100px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
       <section id='component-c-b' className={`row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%]  bg-black rounded-[54px] shadow-customA z-10 flex flex-col`}>
         {children}

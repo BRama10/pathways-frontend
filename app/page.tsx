@@ -95,56 +95,68 @@ export default function Home() {
   return (
     <PageBody>
       <ComponentA>
-        <h1 id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%]">
-          <p className="text-5xl md:text-8xl font-bold text-white">MY</p>
-          <p className="text-5xl md:text-8xl font-bold text-[#5f5ddc] pb-[1%]">PATHWAY</p>
-          <p className="text-lg md:text-2xl text-left text-white pt-[1%]">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
-        </h1>
-
-        <h1 className="text-3xl md:text-5xl text-white font-bold text-center self-center pb-[10%] md:pb-[5%] pt-[5%]">Your journey begins <span className="text-[#e5be58]">here</span>.</h1>
-        <ComponentC>
-          <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
-            <input
-              type="text"
-              placeholder="Enter your county here."
-              className="w-full p-4 text-sm md:text-lg text-white bg-transparent focus:outline-none"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              list='options'
-            />
-            <datalist id="options">
-              {countyData.map((option, index) => (
-                <option key={index} value={option} />
-              ))}
-            </datalist>
+        <div id='top-container' className={`w-full grid grid-cols-1`}>
+          <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}>
+            <img src='/group2.svg' className="row-start-1 col-start-3 row-end-3 w-full h-auto"></img>
+            <img src='/group1.svg' className="row-start-1 col-start-2"></img>
+            <img src='/group.svg' className="row-start-1 col-start-2"></img>
           </div>
-          <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
-            <div id='tmp-id-a' className="flex flex-col">
-              <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
-              </div>
-              
+          <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
+          <div id='top-text' className='w-full row-start-1 col-start-1'>
+            <h1 id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%] z-10">
+              <p className="text-5xl md:text-8xl font-bold text-white">MY</p>
+              <p className="text-5xl md:text-8xl font-bold text-[#5f5ddc] pb-[1%]">PATHWAY</p>
+              <p className="text-lg md:text-2xl text-left text-white pt-[1%]">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
+            </h1>
+
+            <h1 className="text-3xl md:text-5xl text-white font-bold text-center self-center pb-[10%] md:pb-[5%] pt-[5%] z-10">Your journey begins <span className="text-[#e5be58]">here</span>.</h1>
+          </div>
+        </div>
+        <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
+          <ComponentC>
+            <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
+              <input
+                type="text"
+                placeholder="Enter your county here."
+                className="w-full p-4 text-sm md:text-lg text-white bg-transparent focus:outline-none"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                list='options'
+              />
+              <datalist id="options">
+                {countyData.map((option, index) => (
+                  <option key={index} value={option} />
+                ))}
+              </datalist>
+            </div>
+            <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
+              <div id='tmp-id-a' className="flex flex-col">
+                <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
+                  <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
+                </div>
+
                 <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
-                
 
 
-            </div>
-            <div id='tmp-id-b' className="flex flex-col">
-              <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+
               </div>
-              <ChartComponent />
+              <div id='tmp-id-b' className="flex flex-col">
+                <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
+                  <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+                </div>
+                <ChartComponent />
 
-              <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
-                <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
+                  <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                </div>
+                <ContactComponent />
+
+
+
               </div>
-              <ContactComponent />
-
-
-
-            </div>
-          </section>
-        </ComponentC>
+            </section>
+          </ComponentC>
+        </div>
         {/* <img style={{visibility: 'invisible'}} src='/group.svg'></img>
         <img src='/group1.svg'></img>
         <img src='/group2.svg'></img> */}
