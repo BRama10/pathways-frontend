@@ -149,6 +149,7 @@ export function ComponentC({
     const useMDC = () => mapDimensions('component-c-b-a');
     const useMDTA = () => mapDimensions('tmp-id-a');
     const useMDTB = () => mapDimensions('tmp-id-b');
+    const useMDTAB = () => mapDimensions('tmp-id-a-b');
 
 
     window.addEventListener('resize', useMD);
@@ -157,6 +158,7 @@ export function ComponentC({
     window.addEventListener('resize', useMDC);
     window.addEventListener('resize', useMDTA);
     window.addEventListener('resize', useMDTB);
+    window.addEventListener('resize', useMDTAB);
 
     return () => {
       window.removeEventListener('resize', useMD);
@@ -165,6 +167,7 @@ export function ComponentC({
       window.removeEventListener('resize', useMDC);
       window.removeEventListener('resize', useMDTA);
       window.removeEventListener('resize', useMDTB);
+      window.removeEventListener('resize', useMDTAB);
     };
   }, []);
 
@@ -178,10 +181,10 @@ export function ComponentC({
   );
 }
 
-export const DifficultyComponent: React.FC<DataProps> = ({ 
+export const DifficultyComponent: React.FC<DataProps> = ({
   fairNodes = [],
   score = 8.0,
-  num_finalists = 0, 
+  num_finalists = 0,
 }) => {
   useEffect(() => {
 
@@ -216,31 +219,37 @@ export const DifficultyComponent: React.FC<DataProps> = ({
     <>
       <section id='diff-component' className={`flex w-full h-auto pb-[5%]`}>
         <section id='comp-lvl-1' className="flex w-2/3 md:w-3/4 flex-col justify-around">
-          <div id = 'comp-lvl-1-a' className="font-bold text-[#e5be58] self-center text-xl md:text-4xl md-4 md:mb-8">2023</div>
-          <div id = 'comp-lvl-1-b' className="grid grid-cols-1 self-center w-full">
+          <div id='comp-lvl-1-a' className="font-bold text-[#e5be58] self-center text-xl md:text-4xl md-4 md:mb-8">2023</div>
+          <div id='comp-lvl-1-b' className="grid grid-cols-1 self-center w-full">
             <div className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
-            <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{ score }</div>
+            <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{score}</div>
           </div>
         </section>
         <section id='comp-lvl-2' className="w-1/3 md:w-1/4 flex flex-col">
           <div className="font-bold text-[#39c783] self-center text-lg md:text-4xl pd-[0.5%] md:pb-[2%]">2024</div>
-          <div id = 'comp-lvl-2-a' className="grid grid-cols-1 w-full pb-4 md:pb-12">
+          <div id='comp-lvl-2-a' className="grid grid-cols-1 w-full pb-4 md:pb-12">
             <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[6px] md:rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[6px] md:rounded-[31px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-xl md:text-5xl self-center justify-self-center z-10">8.5</div>
           </div>
           <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-3xl pb-[0.5%] md:pb-[2%]">FINALISTS</div>
-          <div id = 'comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8">
+          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8">
             <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[31px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[31px] self-center justify-self-center"></div>
-            <div className=" row-start-1 col-start-1 font-bold text-white text-xl md:text-5xl self-center justify-self-center z-10">{ num_finalists }</div>
+            <div className=" row-start-1 col-start-1 font-bold text-white text-xl md:text-5xl self-center justify-self-center z-10">{num_finalists}</div>
           </div>
         </section>
       </section>
-      {fairNodes.map((fairNode, index) => (
-        <FairNode key={index} {...fairNode} />
-      ))}
+      <div id='tmp-id-a-b' className="flex flex-col pt-12% md:pt-[25%]">
+        {fairNodes.map((fairNode, index) => (
+          <FairNode key={index} {...fairNode} />
+        ))}
+        <div className='pl-12 w-full h-auto grid grid-cols-1 mt-0 justify-start items-start'>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+        </div>
+      </div>
     </>
   );
 }

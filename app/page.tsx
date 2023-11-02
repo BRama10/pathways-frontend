@@ -42,12 +42,31 @@ export default function Home() {
   // Create a state variable to store the user's input
   const [userInput, setUserInput] = useState('');
 
+  // Create a state variable to store the county list
+  const [countyData, setCountyData] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Define your API endpoint or URL
+    const apiUrl = 'https://pathways-backend-ok8dxtsxp-hunter-ss-projects.vercel.app/get_county_names'; // Replace with your actual API URL
+
+    // Use the fetch API to make a GET request
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((result) => {
+        // Update the state with the fetched data
+        setCountyData(result);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   useEffect(() => {
     const inp_data = parseLocationString(userInput);
     if (inp_data) {
       const { county, state } = inp_data;
       // Define your API endpoint
-      const apiUrl = `https://pathways-backend-3bo8j60g3-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
+      const apiUrl = `https://pathways-backend-ok8dxtsxp-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
 
       // Make the GET request
       fetch(apiUrl)
@@ -77,9 +96,9 @@ export default function Home() {
     <PageBody>
       <ComponentA>
         <h1 id="component-a-h1" className="pt-[5%] pl-[5%] pr-[5%]">
-          <p className="text-5xl md:text-8xl font-bold text-white pb-[5%]">MY</p>
-          <p className="text-5xl md:text-8xl font-bold text-[#5f5ddc] pb-[2%] pb-[5%]">PATHWAY</p>
-          <p className="text-lg md:text-2xl text-left text-white pt-[2%]">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
+          <p className="text-5xl md:text-8xl font-bold text-white">MY</p>
+          <p className="text-5xl md:text-8xl font-bold text-[#5f5ddc] pb-[1%]">PATHWAY</p>
+          <p className="text-lg md:text-2xl text-left text-white pt-[1%]">Welcome to Project Pathways–<b className="text-[#e5be58]">the most comprehensive tool for the International Science and Engineering Fair available on the internet.</b> Simply enter your county and we’ll deliver an arsenal of data-derived statistics and heuristics that will guide you throughout your research journey.</p>
         </h1>
 
         <h1 className="text-3xl md:text-5xl text-white font-bold text-center self-center pb-[10%] md:pb-[5%] pt-[5%]">Your journey begins <span className="text-[#e5be58]">here</span>.</h1>
@@ -91,18 +110,23 @@ export default function Home() {
               className="w-full p-4 text-sm md:text-lg text-white bg-transparent focus:outline-none"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
+              list='options'
             />
+            <datalist id="options">
+              {countyData.map((option, index) => (
+                <option key={index} value={option} />
+              ))}
+            </datalist>
           </div>
           <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
             <div id='tmp-id-a' className="flex flex-col">
               <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                 <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
               </div>
-              <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
-              <div className='pl-12 self-end self-left w-full h-auto grid grid-cols-1'>
-                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
-                <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
-              </div>
+              
+                <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
+                
+
 
             </div>
             <div id='tmp-id-b' className="flex flex-col">
