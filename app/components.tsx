@@ -370,7 +370,7 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
       <section id='contact-component h-auto' className={`flex flex-col`}>
         <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-white pt-[5%] pb-[5%]`}>
           {names.map((name, index) => (
-            <div className="text-xs md:text-xl self-center justify-self-center pb-1 md:pb-2">
+            <div key={`${index}-div`} className="text-xs md:text-xl self-center justify-self-center pb-1 md:pb-2">
               <div key={`${index}-name`} >{name} -</div>
               <div key={`${index}-contact`}>{emails.at(index)}</div>
               <br></br>
