@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import { parseData, ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps } from './components';
+import { parseData, ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
 import React, { useState, useEffect } from 'react';
 
 interface Location {
@@ -39,6 +39,11 @@ export default function Home() {
     num_finalists: 0,
     score: 0,
   });
+
+  const [fetchedContacts, setContacts] = useState<ContactNodeProps>({
+    names: ['Jane Doe'],
+    emails: ['example@mail.com']
+  });
   // Create a state variable to store the user's input
   const [userInput, setUserInput] = useState('');
 
@@ -74,6 +79,9 @@ export default function Home() {
         .then((data) => {
           // Step 3: Update the state variable with the fetched data
           // setFetchedData(data);
+          for (const fair of data.fair_data) {
+            console.log(fair);
+        }
           if (data.fair_data.length != 0) {
             var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
 
@@ -98,6 +106,7 @@ export default function Home() {
         <div id='top-container' className={`w-full grid grid-cols-1`}>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
           <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}></div>
+          <img src='/group.svg' className="absolute top-[1px] right-[5px] z-30"></img>
           {/* <img src='/group2.svg' className="absolute top-[1px] left-[5px]"></img>
             <img src='/group1.svg' className="row-start-1 col-start-2"></img>
             <img src='/group.svg' className="row-start-1 col-start-2"></img> */}

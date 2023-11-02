@@ -276,9 +276,9 @@ console.log('Bottom Distance (in pixels):', bottomDistance);
         {fairNodes.map((fairNode, index) => (
           <FairNode key={index} {...fairNode} />
         ))}
-        <div className='pl-12 w-full h-auto grid grid-cols-1 mt-0 justify-start items-start'>
-          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
-          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+        <div className='w-full h-auto grid grid-cols-1 mt-0 justify-start items-start'>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[150px] lg:text-[200px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[150px] lg:text-[200px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
         </div>
       </div>
     </>
@@ -329,7 +329,7 @@ export const ChartComponent: React.FC<DataProps> = ({ fairNodes = [] }) => {
 
   return (
     <>
-      <section id='chart-component' className={`flex w-full h-auto mb-20`}>
+      <section id='chart-component' className={`flex w-5/6 self-center h-auto mb-20`}>
         {/* <div className="container w-auto h-auto max-height-full min-height-full"> */}
         <Pie
           data={data}
@@ -363,14 +363,14 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
 
   return (
     <>
-      <section id='contact-component h-[100px]' className={`flex flex-col`}>
-        <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-xs md:text-xl text-white`}>
+      <section id='contact-component h-auto' className={`flex flex-col`}>
+        <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-white pt-[5%] pb-[5%]`}>
           {names.map((name, index) => (
-            <>
-              <div key={`${index}-name`}>{name} -</div>
+            <div className="text-xs md:text-xl self-center justify-self-center pb-1 md:pb-2">
+              <div key={`${index}-name`} >{name} -</div>
               <div key={`${index}-contact`}>{emails.at(index)}</div>
               <br></br>
-            </>
+            </div>
           ))}
         </div>
       </section>
