@@ -79,9 +79,22 @@ export default function Home() {
         .then((data) => {
           // Step 3: Update the state variable with the fetched data
           // setFetchedData(data);
-          for (const fair of data.fair_data) {
-            console.log(fair);
-        }
+          const contactNames: string[] = [];
+          const emails: string[] = [];
+
+          // Iterate through the array and extract the attributes
+          data.fair_data.forEach((item: any) => {
+            contactNames.push(item.contact_name);
+            emails.push(item.email);
+          });
+
+          const contactProps: ContactNodeProps = {
+            names: contactNames,
+            emails: emails
+          };
+
+          setContacts(contactProps)
+
           if (data.fair_data.length != 0) {
             var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
 
@@ -158,7 +171,7 @@ export default function Home() {
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
                   <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
                 </div>
-                <ContactComponent />
+                <ContactComponent emails={fetchedContacts.emails} names={fetchedContacts.names} />
 
 
 
