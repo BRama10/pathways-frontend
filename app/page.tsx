@@ -57,7 +57,7 @@ export default function Home() {
 
   useEffect(() => {
     // Define your API endpoint or URL
-    const apiUrl = 'https://pathways-backend-ok8dxtsxp-hunter-ss-projects.vercel.app/get_county_names'; // Replace with your actual API URL
+    const apiUrl = 'https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_county_names'; // Replace with your actual API URL
 
     // Use the fetch API to make a GET request
     fetch(apiUrl)
@@ -76,7 +76,7 @@ export default function Home() {
     if (inp_data) {
       const { county, state } = inp_data;
       // Define your API endpoint
-      const apiUrl = `https://pathways-backend-ok8dxtsxp-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
+      const apiUrl = `https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
 
       // Make the GET request
       fetch(apiUrl)
@@ -86,7 +86,7 @@ export default function Home() {
             label_list: data.sectors,
             breakdown: data.breakdown
           }
-
+          console.log(data)
           setFetchedDataBreakdown(chartProps);
 
           // Step 3: Update the state variable with the fetched data
