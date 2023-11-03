@@ -24,7 +24,7 @@ function parseLocationString(input: string): Location | false {
     const county: string = parts[0]
       .replace(/county/gi, '') // Remove 'county'
       .trim()
-      .replace(/\s+/g, '|'); // Replace spaces with |
+      .replace(/\s+/g, '+'); // Replace spaces with |
       
        // Trim left and right spaces
     // Capitalize the first letter of the state
