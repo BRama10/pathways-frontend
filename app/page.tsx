@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from './index.module.css';
 import { parseData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
 import React, { useState, useEffect } from 'react';
+import DropdownCombobox from './dropdown';
 
 interface Location {
   county: string;
@@ -25,8 +26,8 @@ function parseLocationString(input: string): Location | false {
       .replace(/county/gi, '') // Remove 'county'
       .trim()
       .replace(/\s+/g, '+'); // Replace spaces with |
-      
-       // Trim left and right spaces
+
+    // Trim left and right spaces
     // Capitalize the first letter of the state
     const state: string = parts[1].replace(/\s+/g, '+');
 
@@ -89,42 +90,44 @@ export default function Home() {
       // Make the GET request
       fetch(apiUrl)
         .then((response) => response.json())
-        .then((data) => {
-          const chartProps: ChartProps = {
-            label_list: data.sectors,
-            breakdown: data.breakdown
-          }
-          console.log(data)
-          setFetchedDataBreakdown(chartProps);
-
-          // Step 3: Update the state variable with the fetched data
-          // setFetchedData(data);
-          const contactNames: string[] = [];
-          const emails: string[] = [];
-
-          // Iterate through the array and extract the attributes
-          data.fair_data.forEach((item: any) => {
-            contactNames.push(item.contact_name);
-            emails.push(item.email);
-          });
-
-          const contactProps: ContactNodeProps = {
-            names: contactNames,
-            emails: emails
-          };
-
-          setContacts(contactProps)
-
-          if (data.fair_data.length != 0) {
-            var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
-
-            const finalData: DataProps = {
-              fairNodes: cleanData,
-              num_finalists: data.num_finalists,
-              score: data.diff,
+        .then((data: any | number) => {
+          if (data != 0) {
+            const chartProps: ChartProps = {
+              label_list: data.sectors,
+              breakdown: data.breakdown
             }
 
-            setFetchedData(finalData);
+            setFetchedDataBreakdown(chartProps);
+
+            // Step 3: Update the state variable with the fetched data
+            // setFetchedData(data);
+            const contactNames: string[] = [];
+            const emails: string[] = [];
+
+            // Iterate through the array and extract the attributes
+            data.fair_data.forEach((item: any) => {
+              contactNames.push(item.contact_name);
+              emails.push(item.email);
+            });
+
+            const contactProps: ContactNodeProps = {
+              names: contactNames,
+              emails: emails
+            };
+
+            setContacts(contactProps)
+
+            if (data.fair_data.length != 0) {
+              var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
+
+              const finalData: DataProps = {
+                fairNodes: cleanData,
+                num_finalists: data.num_finalists,
+                score: data.diff,
+              }
+
+              setFetchedData(finalData);
+            }
           }
         })
         .catch((error) => {
@@ -157,14 +160,7 @@ export default function Home() {
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
             <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
-              <input
-                type="text"
-                placeholder="Enter your county here."
-                className="w-full p-4 text-sm md:text-lg text-white bg-transparent focus:outline-none"
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                // list='options'
-              />
+              <DropdownCombobox countyList={countyData} setCountyList={setCountyData} userInput={userInput} setUserInput={setUserInput} />
               {/* <datalist id="options">
                 {countyData.map((option, index) => (
                   <option key={index} value={option} />
