@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import { parseData, ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
+import { parseData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
 import React, { useState, useEffect } from 'react';
 
 interface Location {
@@ -38,6 +38,11 @@ export default function Home() {
     fairNodes: [ta, tb],
     num_finalists: 0,
     score: 0,
+  });
+
+  const [fetchedDataBreakdown, setFetchedDataBreakdown] = useState<ChartProps>({
+    label_list: undefined,
+    breakdown: undefined,
   });
 
   const [fetchedContacts, setContacts] = useState<ContactNodeProps>({
@@ -77,6 +82,13 @@ export default function Home() {
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
+          const chartProps: ChartProps = {
+            label_list: data.sectors,
+            breakdown: data.breakdown
+          }
+
+          setFetchedDataBreakdown(chartProps);
+
           // Step 3: Update the state variable with the fetched data
           // setFetchedData(data);
           const contactNames: string[] = [];
@@ -166,7 +178,7 @@ export default function Home() {
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                   <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
                 </div>
-                <ChartComponent />
+                <ChartComponent label_list={fetchedDataBreakdown.label_list} breakdown={fetchedDataBreakdown.breakdown} />
 
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
                   <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>

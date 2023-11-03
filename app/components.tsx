@@ -22,6 +22,10 @@ export function parseData(data: any): FairNodeProps {
   return parsedData;
 }
 
+export interface ChartProps {
+  label_list?: string[] | undefined;
+  breakdown?: number[] | undefined;
+}
 
 export interface FairNodeProps {
   title?: string | undefined;
@@ -266,35 +270,38 @@ export const DifficultyComponent: React.FC<DataProps> = ({
 }
 
 
-export const ChartComponent: React.FC<DataProps> = ({ fairNodes = [] }) => {
+export const ChartComponent: React.FC<ChartProps> = ({ 
+  label_list = ['Environmental Engineering',
+  'Plant Sciences',
+  'Computational Biology and Bioinformatics',
+  'Physics and Astronomy',
+  'Earth and Environmental Sciences',
+  'Robotics and Intelligent Machines',
+  'Biochemistry',
+  'Systems Software',
+  'Embedded Systems',
+  'Behavioral and Social Sciences',
+  'Biomedical Engineering',
+  'Materials Science',
+  'Biomedical and Health Sciences',
+  'Animal Sciences',
+  'Engineering Technology: Statics & Dynamics',
+  'Chemistry',
+  'Microbiology',
+  'Cellular and Molecular Biology',
+  'Energy: Sustainable Materials and Design',
+  'Translational Medical Science',
+  'Mathematics',
+  'Engineering Mechanics',
+  'Energy: Chemical',
+  'Energy: Physical',
+  'No Category'],
+  breakdown = [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+ }) => {
   const data = {
-    labels: ['Environmental Engineering',
-    'Plant Sciences',
-    'Computational Biology and Bioinformatics',
-    'Physics and Astronomy',
-    'Earth and Environmental Sciences',
-    'Robotics and Intelligent Machines',
-    'Biochemistry',
-    'Systems Software',
-    'Embedded Systems',
-    'Behavioral and Social Sciences',
-    'Biomedical Engineering',
-    'Materials Science',
-    'Biomedical and Health Sciences',
-    'Animal Sciences',
-    'Engineering Technology: Statics & Dynamics',
-    'Chemistry',
-    'Microbiology',
-    'Cellular and Molecular Biology',
-    'Energy: Sustainable Materials and Design',
-    'Translational Medical Science',
-    'Mathematics',
-    'Engineering Mechanics',
-    'Energy: Chemical',
-    'Energy: Physical',
-    'No Category'],
+    labels: label_list,
     datasets: [{
-      data: [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: breakdown,
       backgroundColor: [
         '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
         '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
