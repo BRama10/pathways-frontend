@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import { parseData, ContactComponent, ChartComponent, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
+import { parseData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
 import React, { useState, useEffect } from 'react';
 
 interface Location {
@@ -50,6 +50,11 @@ export default function Home() {
     score: 0,
   });
 
+  const [fetchedDataBreakdown, setFetchedDataBreakdown] = useState<ChartProps>({
+    label_list: undefined,
+    breakdown: undefined,
+  });
+
   const [fetchedContacts, setContacts] = useState<ContactNodeProps>({
     names: ['Jane Doe'],
     emails: ['example@mail.com']
@@ -62,7 +67,7 @@ export default function Home() {
 
   useEffect(() => {
     // Define your API endpoint or URL
-    const apiUrl = 'https://pathways-backend-ok8dxtsxp-hunter-ss-projects.vercel.app/get_county_names'; // Replace with your actual API URL
+    const apiUrl = 'https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_county_names'; // Replace with your actual API URL
 
     // Use the fetch API to make a GET request
     fetch(apiUrl)
@@ -81,17 +86,37 @@ export default function Home() {
     if (inp_data) {
       const { county, state } = inp_data;
       // Define your API endpoint
-      const apiUrl = `https://pathways-backend-ok8dxtsxp-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
+      const apiUrl = `https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
 
       // Make the GET request
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
+          const chartProps: ChartProps = {
+            label_list: data.sectors,
+            breakdown: data.breakdown
+          }
+          console.log(data)
+          setFetchedDataBreakdown(chartProps);
+
           // Step 3: Update the state variable with the fetched data
           // setFetchedData(data);
-          for (const fair of data.fair_data) {
-            console.log(fair);
-        }
+          const contactNames: string[] = [];
+          const emails: string[] = [];
+
+          // Iterate through the array and extract the attributes
+          data.fair_data.forEach((item: any) => {
+            contactNames.push(item.contact_name);
+            emails.push(item.email);
+          });
+
+          const contactProps: ContactNodeProps = {
+            names: contactNames,
+            emails: emails
+          };
+
+          setContacts(contactProps)
+
           if (data.fair_data.length != 0) {
             var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
 
@@ -163,12 +188,12 @@ export default function Home() {
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                   <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
                 </div>
-                <ChartComponent />
+                <ChartComponent label_list={fetchedDataBreakdown.label_list} breakdown={fetchedDataBreakdown.breakdown} />
 
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
                   <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
                 </div>
-                <ContactComponent />
+                <ContactComponent emails={fetchedContacts.emails} names={fetchedContacts.names} />
 
 
 

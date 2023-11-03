@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import mapDimensions from '../utils';
+import { mapMargins, mapDimensions } from '../utils';
 import styles from './index.module.css';
 import Key from '../public/key.svg'
 import Vector1 from '../public/group1.svg'
@@ -22,6 +22,10 @@ export function parseData(data: any): FairNodeProps {
   return parsedData;
 }
 
+export interface ChartProps {
+  label_list?: string[] | undefined;
+  breakdown?: number[] | undefined;
+}
 
 export interface FairNodeProps {
   title?: string | undefined;
@@ -187,37 +191,16 @@ export const DifficultyComponent: React.FC<DataProps> = ({
   num_finalists = 0,
 }) => {
   useEffect(() => {
-    const parent = document.getElementById('comp-lvl-1-b'); // Replace 'parent' with the actual ID of your parent div
-    const child = document.getElementById('child'); // Replace 'child' with the actual ID of your flex child element
+    const useMM = () => mapMargins('comp-lvl-1-b-child', 'comp-lvl-1-b', 'left', 'tmp-id-a-b')
 
-    // Get the dimensions of the parent and child elements
-    if (parent && child) {
-      const parentRect = parent.getBoundingClientRect();
-      const childRect = child.getBoundingClientRect();
-
-      const leftDistance = childRect.left - parentRect.left; // Distance between child's left side and parent's left side
-const rightDistance = parentRect.right - childRect.right; // Distance between parent's right side and child's right side
-const topDistance = childRect.top - parentRect.top; // Distance between child's top side and parent's top side
-const bottomDistance = parentRect.bottom - childRect.bottom; // Distance between parent's bottom side and child's bottom side
-
-// Log the distances in pixels
-console.log('Left Distance (in pixels):', leftDistance);
-console.log('Right Distance (in pixels):', rightDistance);
-console.log('Top Distance (in pixels):', topDistance);
-console.log('Bottom Distance (in pixels):', bottomDistance);
-    }
-
-    // Calculate the distances
-   
-
-    const useMD = () => mapDimensions('diff-component');
+    // const useMD = () => mapDimensions('diff-component');
     // const useMDA = () => mapDimensions('comp-lvl-1');
     // const useMDB = () => mapDimensions('comp-lvl-2');
     // const useMDC = () => mapDimensions('comp-lvl-1-a');
     // const useMDD = () => mapDimensions('comp-lvl-1-b');
     // const useMDE = () => mapDimensions('comp-lvl-2-a');
     // const useMDF = () => mapDimensions('comp-lvl-2-b');
-
+    window.addEventListener('resize', useMM);
     // window.addEventListener('resize', useMD);
     // window.addEventListener('resize', useMDA);
     // window.addEventListener('resize', useMDB);
@@ -226,7 +209,8 @@ console.log('Bottom Distance (in pixels):', bottomDistance);
     // window.addEventListener('resize', useMDE);
     // window.addEventListener('resize', useMDF);
 
-    // return () => {
+    return () => {
+      window.removeEventListener('resize', useMM);
     //   window.removeEventListener('resize', useMD);
     //   window.removeEventListener('resize', useMDA);
     //   window.removeEventListener('resize', useMDB);
@@ -234,7 +218,7 @@ console.log('Bottom Distance (in pixels):', bottomDistance);
     //   window.removeEventListener('resize', useMDD);
     //   window.removeEventListener('resize', useMDE);
     //   window.removeEventListener('resize', useMDF);
-    // };
+    };
   }, []);
 
   return (
@@ -245,12 +229,12 @@ console.log('Bottom Distance (in pixels):', bottomDistance);
         {/* <section id='comp-lvl-1' className="flex w-2/3 md:w-3/4 flex-col"> */}
         <div id='comp-lvl-1-a' className="font-bold text-[#e5be58] self-center justify-self-center text-xl md:text-4xl mb-4 md:mb-8">2023</div>
         <div className="font-bold text-[#39c783] self-center justify-self-center text-lg md:text-4xl mb-4 md:mb-8">2024</div>
-          
-          <div id='comp-lvl-1-b' className="grid grid-cols-1 self-start w-full">
-            <div id="child" className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
-            <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
-            <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{score}</div>
-          </div>
+
+        <div id='comp-lvl-1-b' className="grid grid-cols-1 self-start w-full">
+          <div id="comp-lvl-1-b-child" className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
+          <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
+          <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{score}</div>
+        </div>
 
 
         {/* <section id='comp-lvl-2' className="w-1/3 md:w-1/4 flex flex-col"> */}
@@ -269,10 +253,10 @@ console.log('Bottom Distance (in pixels):', bottomDistance);
         </section>
       </section>
 
-      
 
 
-      <div id='tmp-id-a-b' className="flex flex-col pt-12% md:pt-[25%] pb-[5%] ml-[42.29px]">
+
+      <div id='tmp-id-a-b' className="flex flex-col pt-12% ml-[50.72px] md:pt-[25%] pb-[5%]">
         {fairNodes.map((fairNode, index) => (
           <FairNode key={index} {...fairNode} />
         ))}
@@ -286,25 +270,52 @@ console.log('Bottom Distance (in pixels):', bottomDistance);
 }
 
 
-export const ChartComponent: React.FC<DataProps> = ({ fairNodes = [] }) => {
+export const ChartComponent: React.FC<ChartProps> = ({ 
+  label_list = ['Environmental Engineering',
+  'Plant Sciences',
+  'Computational Biology and Bioinformatics',
+  'Physics and Astronomy',
+  'Earth and Environmental Sciences',
+  'Robotics and Intelligent Machines',
+  'Biochemistry',
+  'Systems Software',
+  'Embedded Systems',
+  'Behavioral and Social Sciences',
+  'Biomedical Engineering',
+  'Materials Science',
+  'Biomedical and Health Sciences',
+  'Animal Sciences',
+  'Engineering Technology: Statics & Dynamics',
+  'Chemistry',
+  'Microbiology',
+  'Cellular and Molecular Biology',
+  'Energy: Sustainable Materials and Design',
+  'Translational Medical Science',
+  'Mathematics',
+  'Engineering Mechanics',
+  'Energy: Chemical',
+  'Energy: Physical',
+  'No Category'],
+  breakdown = [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+ }) => {
   const data = {
-    labels: [
-      'Red',
-      'Blue',
-      'Yellow'
-    ],
+    labels: label_list,
     datasets: [{
-      data: [300, 50, 100],
+      data: breakdown,
       backgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56'
-      ],
+        '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
+        '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
+        '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
+        '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
+        '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
+    ],
       hoverBackgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56'
-      ]
+        '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
+        '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
+        '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
+        '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
+        '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
+    ]
     }]
   };
 
@@ -366,7 +377,7 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
       <section id='contact-component h-auto' className={`flex flex-col`}>
         <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-white pt-[5%] pb-[5%]`}>
           {names.map((name, index) => (
-            <div className="text-xs md:text-xl self-center justify-self-center pb-1 md:pb-2">
+            <div key={`${index}-div`} className="text-xs md:text-xl self-start justify-self-start pb-1 md:pb-2 pl-[15%]">
               <div key={`${index}-name`} >{name} -</div>
               <div key={`${index}-contact`}>{emails.at(index)}</div>
               <br></br>
