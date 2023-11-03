@@ -20,18 +20,15 @@ function parseLocationString(input: string): Location | false {
     if (parts.length !== 2) {
       return false;
     }
-
     // Process the county part to replace spaces with | and remove 'county'
     const county: string = parts[0]
-      .replace(/\s+/g, '|') // Replace spaces with |
+      .replace(/county/gi, '') // Remove 'county'
       .trim()
-      .replace(/county/gi, ''); // Remove 'county'
+      .replace(/\s+/g, '|'); // Replace spaces with |
+      
        // Trim left and right spaces
-
     // Capitalize the first letter of the state
     const state: string = parts[1].replace(/\s+/g, '|');
-
-    console.log({ county, state })
 
     return { county, state };
   } catch {
@@ -166,13 +163,13 @@ export default function Home() {
                 className="w-full p-4 text-sm md:text-lg text-white bg-transparent focus:outline-none"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
-                list='options'
+                // list='options'
               />
-              <datalist id="options">
+              {/* <datalist id="options">
                 {countyData.map((option, index) => (
                   <option key={index} value={option} />
                 ))}
-              </datalist>
+              </datalist> */}
             </div>
             <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
               <div id='tmp-id-a' className="flex flex-col flex-start">
