@@ -2,13 +2,23 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import { parseData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
-import React, { useState, useEffect } from 'react';
-import DropdownCombobox from './dropdown';
+import {PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
+import React, { useState, useEffect, useRef } from 'react';
+
+import Select from './select'
+
 
 interface Location {
   county: string;
   state: string;
+}
+
+interface StaticPath {
+  overall_diff: number,
+  overall_pred_diff: number,
+  overall_finalists: number,
+  overall_sectors: string[],
+  overall_breakdown: number[],
 }
 
 
@@ -40,14 +50,23 @@ function parseLocationString(input: string): Location | false {
 
 
 export default function Home() {
-  const ta: FairNodeProps = {}
-  const tb: FairNodeProps = {}
+  // const ta: FairNodeProps = {}
+  // const tb: FairNodeProps = {}
 
-  const [fetchedData, setFetchedData] = useState<DataProps>({
-    fairNodes: [ta, tb],
-    num_finalists: 0,
-    score: 0,
-  });
+  // const [fetchedData, setFetchedData] = useState<DataProps>({
+  //   fairNodes: [],
+  //   num_finalists: 0,
+  //   score: 0,
+  // });
+
+  const handleStopHover = () => {
+    setIsHovered(false);
+    console.log('not hovering')
+
+    // console.log(updatedCurrentPath)
+
+    // setCurrentPath(updatedCurrentPath);
+  };
 
   const [fetchedDataBreakdown, setFetchedDataBreakdown] = useState<ChartProps>({
     label_list: undefined,
@@ -63,17 +82,130 @@ export default function Home() {
 
   // Create a state variable to store the county list
   const [countyData, setCountyData] = useState<string[]>([]);
+  // const [baseData, setBaseData] = useState<PathData[]>([{
+  //   overall_diff: 0,
+  //   overall_pred_diff: 0,
+  //   overall_finalists: 0,
+  //   overall_sectors: [],
+  //   overall_breakdown: [],
+  //   nodes: [],
+  // }]);
+
+  const [baseData, setBaseData] = useState<PathData[]>([]);
+
+  const [singleCount, setSingleCount] = useState(0);
+
+  const [currentPath, setCurrentPath] = useState<PathData>({
+    overall_diff: 0,
+    overall_pred_diff: 0,
+    overall_finalists: 0,
+    overall_sectors: [],
+    overall_breakdown: [],
+    nodes: [],
+    handleStopHover: handleStopHover,
+  });
+
+
+  const [baseCurrentPath, setBaseCurrentPath] = useState<StaticPath>({
+    overall_diff: 0,
+    overall_pred_diff: 0,
+    overall_finalists: 0,
+    overall_sectors: [] as string[],
+    overall_breakdown: [] as number[],
+  })
+
+  const [isHovered, setIsHovered] = useState<boolean | undefined>(undefined);
+  const [isClicked, setIsClicked] = useState(false);
+
+  function handleHover(a:any, b:any, c:any, d:any, e:any) {
+    setIsHovered(true);
+    // setIsClicked(false); // Reset the click state
+    console.log('hovering')
+
+    setCurrentPath((prevCurrentPath) => ({
+      ...prevCurrentPath,
+      overall_finalists: a,
+      overall_diff: b,
+      overall_pred_diff: c,
+      overall_sectors: d,
+      overall_breakdown: e,
+    }));
+
+    
+
+    // console.log(updatedCurrentPath);
+
+    // setCurrentPath(updatedCurrentPath);
+  };
+
+  // Function to call when stopping hovering
+  
+
+  // useEffect(() => {
+  //   if(!isHovered) {
+  //     console.log(baseStateRef.current)
+  //   setCurrentPath((prevCurrentPath) => ({
+  //     ...prevCurrentPath,
+  //     ...baseCurrentPath,
+  //   }));
+  // }
+  // }, [isHovered])
+
+  // Function to call when clicking on the element
+  function handleClick(a:any, b:any, c:any, d:any, e:any) {
+    setIsClicked(!isClicked);
+  };
+
+
+  useEffect(() => {
+    // console.log(baseCurrentPath);
+  }, [baseCurrentPath]);
+
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // console.log(currentPath);
+    // console.log(count);
+    if (currentPath.overall_diff !== 0 && count == 0) {
+      // console.log('here')
+      // Increment the count state
+      setCount(1);
+    } else if (currentPath.overall_diff == 0) {
+      setCount(0);
+    } else {
+      setCount(2);
+    }
+  
+  }, [currentPath]);
+
+  useEffect(() => {
+    if (count == 1) {
+      // console.log('we got called ayy')
+      setBaseCurrentPath({
+        overall_diff: currentPath.overall_diff,
+        overall_pred_diff: currentPath.overall_pred_diff,
+        overall_finalists: currentPath.overall_finalists,
+        overall_sectors: currentPath.overall_sectors,
+        overall_breakdown: currentPath.overall_breakdown,
+      })
+    }
+  }, [count]);
 
   useEffect(() => {
     // Define your API endpoint or URL
     const apiUrl = 'https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_county_names'; // Replace with your actual API URL
+    // console.log(currentPath);
 
     // Use the fetch API to make a GET request
     fetch(apiUrl)
       .then((response) => response.json())
       .then((result) => {
         // Update the state with the fetched data
-        setCountyData(result);
+        const transformedResult = result.map((rs: string) => ({
+          value: rs,
+          label: rs,
+        }));
+        setCountyData(transformedResult);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -82,53 +214,64 @@ export default function Home() {
 
   useEffect(() => {
     const inp_data = parseLocationString(userInput);
+    
     if (inp_data) {
       const { county, state } = inp_data;
       // Define your API endpoint
       const apiUrl = `https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
-
+      // console.log(apiUrl)
       // Make the GET request
       fetch(apiUrl)
         .then((response) => response.json())
-        .then((data: any | number) => {
-          if (data != 0) {
-            const chartProps: ChartProps = {
-              label_list: data.sectors,
-              breakdown: data.breakdown
-            }
-
-            setFetchedDataBreakdown(chartProps);
-
-            // Step 3: Update the state variable with the fetched data
-            // setFetchedData(data);
-            const contactNames: string[] = [];
-            const emails: string[] = [];
-
-            // Iterate through the array and extract the attributes
-            data.fair_data.forEach((item: any) => {
-              contactNames.push(item.contact_name);
-              emails.push(item.email);
-            });
-
-            const contactProps: ContactNodeProps = {
-              names: contactNames,
-              emails: emails
+        .then((data: any) => {
+          
+          // const baseDataCopy = [...baseData]; // Create a copy of the current state
+          // console.log(baseDataCopy);
+          const baseDataCopy = [];
+          
+          for (const dp of data) {
+            var parsedRes: PathData = {
+              overall_diff: dp.overall_diff,
+              overall_pred_diff: dp.overall_pred_diff,
+              overall_breakdown: dp.overall_breakdown,
+              overall_finalists: dp.overall_finalists,
+              overall_sectors: dp.overall_sectors,
+              nodes: [],
+              handleStopHover: handleStopHover,
             };
-
-            setContacts(contactProps)
-
-            if (data.fair_data.length != 0) {
-              var cleanData = [parseData(data.fair_data[0]), parseData(data.fair_data[1])]
-
-              const finalData: DataProps = {
-                fairNodes: cleanData,
-                num_finalists: data.num_finalists,
-                score: data.diff,
-              }
-
-              setFetchedData(finalData);
+  
+            for (const d of dp.fair_data) {
+              var tfnp: FairNodeProps = {
+                title: d.name,
+                code: d.code,
+                contact: d.contact_name,
+                email: d.email,
+                website: d.website,
+                isStart: false,
+              };
+  
+              var tfd: FairData = {
+                node: tfnp,
+                num_finalists: d.num_finalists,
+                pred_diff: d.pred_diff,
+                diff: d.diff,
+                sectors: d.sectors,
+                breakdown: d.breakdown,
+                handleHover: handleHover,
+                handleClick: handleClick,
+                handleStopHover: handleStopHover,
+              };
+  
+              parsedRes.nodes.push(tfd);
             }
+  
+            baseDataCopy.push(parsedRes);
           }
+          
+          // console.log(baseDataCopy);
+          setCount(0);
+          setBaseData(baseDataCopy);
+          // setCurrentPath(baseDataCopy[0]);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
@@ -136,13 +279,28 @@ export default function Home() {
     }
   }, [userInput]);
 
+  const didMountBaseRef = useRef(false);
+
+  useEffect(() => {
+
+    if (baseData.length > 0) {
+      setCurrentPath(baseData[1])
+    }
+  }, [baseData]);
+
+  useEffect(() => {
+    console.log('current path')
+    console.log(currentPath)
+  }, [currentPath]);
+
+
   return (
     <PageBody>
       <ComponentA>
-        <div id='top-container' className={`w-full grid grid-cols-1`}>
+        <div id='top-container' className={`w-full grid grid-cols-1`} onMouseEnter={handleStopHover}>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
           <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}></div>
-          <img src='/group.svg' className="absolute top-[1px] right-[5px] z-30"></img>
+          {/* <img src='/group.svg' className="absolute top-[1px] right-[5px] z-30"></img> */}
           {/* <img src='/group2.svg' className="absolute top-[1px] left-[5px]"></img>
             <img src='/group1.svg' className="row-start-1 col-start-2"></img>
             <img src='/group.svg' className="row-start-1 col-start-2"></img> */}
@@ -160,25 +318,27 @@ export default function Home() {
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
             <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
-              <DropdownCombobox countyList={countyData} setCountyList={setCountyData} userInput={userInput} setUserInput={setUserInput} />
-              {/* <datalist id="options">
-                {countyData.map((option, index) => (
-                  <option key={index} value={option} />
-                ))}
-              </datalist> */}
+              <Select options={countyData} oifunct={setUserInput}></Select>
             </div>
             <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
               <div id='tmp-id-a' className="flex flex-col flex-start">
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                   <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
                 </div>
-
-                <DifficultyComponent fairNodes={fetchedData.fairNodes} score={fetchedData.score} num_finalists={fetchedData.num_finalists} />
+                {/* <p>{currentPath.overall_diff}</p> */}
+                <p>{currentPath.overall_diff}</p>
+                <p>{baseCurrentPath.overall_diff}</p>
+                {isHovered === false ? (
+                  <DifficultyComponent overall_diff={baseCurrentPath.overall_diff} overall_breakdown={baseCurrentPath.overall_breakdown} overall_finalists={baseCurrentPath.overall_finalists} overall_pred_diff={baseCurrentPath.overall_pred_diff}  overall_sectors={baseCurrentPath.overall_sectors} nodes={currentPath.nodes}/>
+                ) : (
+                  <DifficultyComponent overall_diff={currentPath.overall_diff} overall_breakdown={currentPath.overall_breakdown} overall_finalists={currentPath.overall_finalists} overall_pred_diff={currentPath.overall_pred_diff}  overall_sectors={currentPath.overall_sectors} nodes={currentPath.nodes}/>
+                )}
+                
 
 
 
               </div>
-              <div id='tmp-id-b' className="flex flex-col">
+              <div id='tmp-id-b' className="flex flex-col" onMouseEnter={handleStopHover}>
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                   <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
                 </div>
@@ -203,4 +363,3 @@ export default function Home() {
     </PageBody>
   )
 }
-

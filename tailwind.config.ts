@@ -21,7 +21,7 @@ const config: Config = {
         'customYellow' : 'linear-gradient(90deg, #ffd79c, #fff)'
       },
       gridTemplateColumns: {
-        'diffComp' : '75% 25%'
+        'diffComp' : '73% 27%'
       },
       gridTemplateRowss: {
         'diffRows' : '15% 85%'

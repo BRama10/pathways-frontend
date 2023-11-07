@@ -8,19 +8,19 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 Chart.register(ArcElement, Tooltip, Legend);
 
-export function parseData(data: any): FairNodeProps {
-  // Use type assertions to map properties
-  const parsedData: FairNodeProps = {
-    title: data.name,
-    code: data.code,
-    contact: data.contact_name,
-    email: data.email,
-    website: data.website,
-    isStart: false,
-  };
+// export function parseData(data: any): FairNodeProps {
+//   // Use type assertions to map properties
+//   const parsedData: FairNodeProps = {
+//     title: data.name,
+//     code: data.code,
+//     contact: data.contact_name,
+//     email: data.email,
+//     website: data.website,
+//     isStart: false,
+//   };
 
-  return parsedData;
-}
+//   return parsedData;
+// }
 
 export interface ChartProps {
   label_list?: string[] | undefined;
@@ -40,6 +40,29 @@ export interface DataProps {
   fairNodes?: FairNodeProps[] | undefined;
   num_finalists?: number | undefined;
   score?: number | undefined;
+  pred_score?: number | undefined;
+}
+
+export interface FairData {
+  node: FairNodeProps;
+  num_finalists: number;
+  diff: number;
+  pred_diff: number;
+  sectors: string[];
+  breakdown: number[];
+  handleHover: (a: any, b: any, c: any, d: any, e:any) => void;
+  handleStopHover?: () => void;
+  handleClick: (a: any, b: any, c: any, d: any, e:any) => void;
+}
+
+export interface PathData {
+  overall_diff: number;
+  overall_pred_diff: number;
+  overall_finalists: number;
+  overall_sectors: string[];
+  overall_breakdown: number[];
+  nodes: FairData[];
+  handleStopHover?: () => void;
 }
 
 export interface ContactNodeProps {
@@ -71,13 +94,23 @@ export function PageBody({
 }
 
 
-export const FairNode: React.FC<FairNodeProps> = ({
-  title = 'ISEF-Affiliated Regional Fair',
-  code = 'USNC01',
-  website = 'www.randomfair.org',
-  contact = 'Jane Doe',
-  isStart = false,
-  email = 'email@email.org',
+export const FairNode: React.FC<FairData> = ({
+  // title = 'ISEF-Affiliated Regional Fair',
+  // code = 'USNC01',
+  // website = 'www.randomfair.org',
+  // contact = 'Jane Doe',
+  // isStart = false,
+  // email = 'email@email.org',
+  node,
+  num_finalists,
+  diff,
+  pred_diff,
+  sectors,
+  breakdown,
+  handleHover,
+  handleStopHover,
+  handleClick,
+
 }) => {
   useEffect(() => {
 
@@ -94,19 +127,23 @@ export const FairNode: React.FC<FairNodeProps> = ({
   }, []);
 
   return (
-    <div id="fair-list" className="flex w-full h-auto flex-row pb-2 md:pb-8">
+    <div id="fair-list" className="flex w-full h-auto flex-row pb-2 md:pb-8"
+      onMouseEnter={() => handleHover(num_finalists, diff, pred_diff, sectors, breakdown)}
+      onMouseLeave={() => handleStopHover}
+      onClick={() => handleClick(num_finalists, diff, pred_diff, sectors, breakdown)}
+    >
       <div className="w-[13%] h-auto">
         <div className="rounded-[50%] border-4 md:border-8 border-solid border-[#5da6dc] w-[20px] md:w-[40px] aspect-square"></div>
         <div className="border-2 md:border-4 border-solid border-[#5da6dc] w-[4px] md:w-[8px] h-[85%] box-border ml-2 md:ml-4"></div>
       </div>
       <div id="node-a" className="flex flex-col w-full h-full">
-        <h1 className={`${styles.customYellow} font-bold md:font-normal text-sm md:text-3xl pb-2 pl-4`}>{title}</h1>
+        <h1 className={`${styles.customYellow} font-bold md:font-normal text-sm md:text-3xl pb-2 pl-4`}>{node.title}</h1>
         <div className="grid grid-cols-2 justify-between w-full pt-px pb-px">
-          <h2 className="col-start-1 row-start-1 font-bold text-[0.5rem] md:text-lg text-white">{code}</h2>
-          <h2 className="col-start-2 row-start-1 font-normal text-[0.5rem] md:text-lg text-white">Contact: {contact}</h2>
+          <h2 className="col-start-1 row-start-1 font-bold text-[0.5rem] md:text-lg text-white">{node.code}</h2>
+          <h2 className="col-start-2 row-start-1 font-normal text-[0.5rem] md:text-lg text-white">Contact: {node.contact}</h2>
         </div>
-        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline"><a href={website}>Website</a></h2>
-        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline"><a href={email}>Email</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline"><a href={node.website}>Website</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline"><a href={node.email}>Email</a></h2>
       </div>
 
     </div>
@@ -185,10 +222,14 @@ export function ComponentC({
   );
 }
 
-export const DifficultyComponent: React.FC<DataProps> = ({
-  fairNodes = [],
-  score = 8.0,
-  num_finalists = 0,
+export const DifficultyComponent: React.FC<PathData> = ({
+  overall_diff,
+  overall_pred_diff,
+  overall_finalists,
+  overall_sectors,
+  overall_breakdown,
+  nodes,
+  handleStopHover,
 }) => {
   useEffect(() => {
     const useMM = () => mapMargins('comp-lvl-1-b-child', 'comp-lvl-1-b', 'left', 'tmp-id-a-b')
@@ -211,20 +252,20 @@ export const DifficultyComponent: React.FC<DataProps> = ({
 
     return () => {
       window.removeEventListener('resize', useMM);
-    //   window.removeEventListener('resize', useMD);
-    //   window.removeEventListener('resize', useMDA);
-    //   window.removeEventListener('resize', useMDB);
-    //   window.removeEventListener('resize', useMDC);
-    //   window.removeEventListener('resize', useMDD);
-    //   window.removeEventListener('resize', useMDE);
-    //   window.removeEventListener('resize', useMDF);
+      //   window.removeEventListener('resize', useMD);
+      //   window.removeEventListener('resize', useMDA);
+      //   window.removeEventListener('resize', useMDB);
+      //   window.removeEventListener('resize', useMDC);
+      //   window.removeEventListener('resize', useMDD);
+      //   window.removeEventListener('resize', useMDE);
+      //   window.removeEventListener('resize', useMDF);
     };
   }, []);
 
   return (
     <>
       {/* <section id='diff-component' className={`flex w-full h-auto pb-[5%]`}> */}
-      <section id='diff-component' className={`grid grid-cols-diffComp grid-rows-diffRows w-full h-auto pb-[5%]`}>
+      <section id='diff-component' className={`grid grid-cols-diffComp grid-rows-diffRows w-full h-auto pb-[5%]` } onMouseEnter={handleStopHover}>
 
         {/* <section id='comp-lvl-1' className="flex w-2/3 md:w-3/4 flex-col"> */}
         <div id='comp-lvl-1-a' className="font-bold text-[#e5be58] self-center justify-self-center text-xl md:text-4xl mb-4 md:mb-8">2023</div>
@@ -233,22 +274,23 @@ export const DifficultyComponent: React.FC<DataProps> = ({
         <div id='comp-lvl-1-b' className="grid grid-cols-1 self-start w-full">
           <div id="comp-lvl-1-b-child" className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
           <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
-          <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{score}</div>
+          <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{overall_diff}</div>
         </div>
 
 
         {/* <section id='comp-lvl-2' className="w-1/3 md:w-1/4 flex flex-col"> */}
-        <section id='comp-lvl-2' className="w-full flex flex-col justify-between items-center justify-self-center">
-          <div id='comp-lvl-2-a' className="grid grid-cols-1 w-3/4 pb-4 md:pb-12">
-            <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
-            <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
-            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">8.5</div>
+        <section id='comp-lvl-2' className="w-full flex flex-col items-center justify-self-center">
+          <div id='comp-lvl-2-a' className="grid grid-cols-1 w-full aspect-square m-0 p-0">
+            {/*pb-4 md:pb-12 */}
+            <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
+            <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
+            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_pred_diff}</div>
           </div>
-          <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-xl lg:text-3xl pb-[0.5%]">FINALISTS</div>
-          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-3/4 pt-1 md:pt-8">
-            <div className=" row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
-            <div className="blur-[30px] row-start-1 col-start-1 w-3/4 aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
-            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{num_finalists}</div>
+          {/* <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-xl lg:text-3xl pb-[0.5%]">FINALISTS</div> */}
+          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8 aspect square">
+            <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
+            <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
+            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_finalists}</div>
           </div>
         </section>
       </section>
@@ -257,7 +299,7 @@ export const DifficultyComponent: React.FC<DataProps> = ({
 
 
       <div id='tmp-id-a-b' className="flex flex-col pt-12% ml-[50.72px] md:pt-[25%] pb-[5%]">
-        {fairNodes.map((fairNode, index) => (
+        {nodes.map((fairNode, index) => (
           <FairNode key={index} {...fairNode} />
         ))}
         <div className='w-full h-auto grid grid-cols-1 mt-0 justify-start items-start'>
@@ -270,34 +312,34 @@ export const DifficultyComponent: React.FC<DataProps> = ({
 }
 
 
-export const ChartComponent: React.FC<ChartProps> = ({ 
+export const ChartComponent: React.FC<ChartProps> = ({
   label_list = ['Environmental Engineering',
-  'Plant Sciences',
-  'Computational Biology and Bioinformatics',
-  'Physics and Astronomy',
-  'Earth and Environmental Sciences',
-  'Robotics and Intelligent Machines',
-  'Biochemistry',
-  'Systems Software',
-  'Embedded Systems',
-  'Behavioral and Social Sciences',
-  'Biomedical Engineering',
-  'Materials Science',
-  'Biomedical and Health Sciences',
-  'Animal Sciences',
-  'Engineering Technology: Statics & Dynamics',
-  'Chemistry',
-  'Microbiology',
-  'Cellular and Molecular Biology',
-  'Energy: Sustainable Materials and Design',
-  'Translational Medical Science',
-  'Mathematics',
-  'Engineering Mechanics',
-  'Energy: Chemical',
-  'Energy: Physical',
-  'No Category'],
+    'Plant Sciences',
+    'Computational Biology and Bioinformatics',
+    'Physics and Astronomy',
+    'Earth and Environmental Sciences',
+    'Robotics and Intelligent Machines',
+    'Biochemistry',
+    'Systems Software',
+    'Embedded Systems',
+    'Behavioral and Social Sciences',
+    'Biomedical Engineering',
+    'Materials Science',
+    'Biomedical and Health Sciences',
+    'Animal Sciences',
+    'Engineering Technology: Statics & Dynamics',
+    'Chemistry',
+    'Microbiology',
+    'Cellular and Molecular Biology',
+    'Energy: Sustainable Materials and Design',
+    'Translational Medical Science',
+    'Mathematics',
+    'Engineering Mechanics',
+    'Energy: Chemical',
+    'Energy: Physical',
+    'No Category'],
   breakdown = [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
- }) => {
+}) => {
   const data = {
     labels: label_list,
     datasets: [{
@@ -308,14 +350,14 @@ export const ChartComponent: React.FC<ChartProps> = ({
         '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
         '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
         '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
-    ],
+      ],
       hoverBackgroundColor: [
         '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
         '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
         '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
         '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
         '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
-    ]
+      ]
     }]
   };
 

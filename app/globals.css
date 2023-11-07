@@ -26,3 +26,18 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+::-webkit-scrollbar {
+  width: 0.01rem; /* You can adjust this value to control the scrollbar's width */
+}
+
+/* Hide the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Hide the scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+  display: none;
+}
