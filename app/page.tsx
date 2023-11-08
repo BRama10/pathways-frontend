@@ -275,6 +275,7 @@ export default function Home() {
           
           // console.log(baseDataCopy);
           setCount(0);
+          setIsActive(true);
           setBaseData(baseDataCopy);
           // setCurrentPath(baseDataCopy[0]);
         })
@@ -287,39 +288,33 @@ export default function Home() {
   const didMountBaseRef = useRef(false);
 
   useEffect(() => {
-    
-
+    console.log(baseData);
+    console.log(isActive)
     if (baseData.length > 0) {
-      const index = baseData.findIndex((object) => {
-        // Here, you should provide the condition to check if the objects are equal
-        // You can use a deep comparison approach to compare object attributes
-        // For example, if your objects are plain objects, you can use a library like lodash to perform deep comparisons.
-      
-        // Example using lodash's isEqual function (install lodash via npm/yarn):
-        // const isEqual = require('lodash/isEqual');
-        // return isEqual(targetObject, object);
-      
-        // If the objects are plain and don't contain nested objects, you can use JSON.stringify:
-        // return isEqual(targetObject, object);
-      });
-
-      console.log(`current path is at ${index}`)
-      
-      if (!isActive) {
+      if (isActive) {
         console.log('WTF')
         setCurrentPath(baseData[1])
-        setIsActive(true);
       }
     }
   }, [baseData]);
 
   useEffect(() => {
-    console.log('current path')
-    console.log(currentPath)
+    console.log(currentPath);
   }, [currentPath]);
 
   const switchPath = () => {
+    var index = baseData.findIndex((object) => {
+      const isEqual = require('lodash/isEqual');
+      return isEqual(currentPath, object);
+    });
+    console.log(`index ${index}`)
+    index = index+1;
 
+    if (index == baseData.length) {
+      index = 1;
+    } 
+
+    setCurrentPath(baseData[index])
   }
 
 
