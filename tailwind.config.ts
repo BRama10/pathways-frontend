@@ -21,11 +21,14 @@ const config: Config = {
         'customYellow' : 'linear-gradient(90deg, #ffd79c, #fff)'
       },
       gridTemplateColumns: {
-        'diffComp' : '73% 27%'
+        'diffComp' : '65% 5% 30%'
       },
-      gridTemplateRowss: {
+      gridTemplateRows: {
         'diffRows' : '15% 85%'
-      }
+      },
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
     },
   },
   plugins: [],

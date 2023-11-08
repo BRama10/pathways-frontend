@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import styles from './index.module.css';
 import {PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, MouseEvent } from 'react';
+
 
 import Select from './select'
 
@@ -59,14 +60,19 @@ export default function Home() {
   //   score: 0,
   // });
 
-  const handleStopHover = () => {
-    setIsHovered(false);
-    console.log('not hovering')
+  const handleStopHover = (e: MouseEvent) => {
+    const tmpIdABElement = (e.target as HTMLElement).closest('#tmp-id-a-b');
+  
+    if (tmpIdABElement) {
+      // The target is the element with id 'tmp-id-a-b' or one of its children.
+      // You can place your code here if the condition is met.
 
-    // console.log(updatedCurrentPath)
-
-    // setCurrentPath(updatedCurrentPath);
+    } else {
+      // If it reaches this point, it means the target is not 'tmp-id-a-b' or its child.
+      setIsHovered(false);
+    }
   };
+
 
   const [fetchedDataBreakdown, setFetchedDataBreakdown] = useState<ChartProps>({
     label_list: undefined,
@@ -79,6 +85,8 @@ export default function Home() {
   });
   // Create a state variable to store the user's input
   const [userInput, setUserInput] = useState('');
+
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   // Create a state variable to store the county list
   const [countyData, setCountyData] = useState<string[]>([]);
@@ -102,7 +110,6 @@ export default function Home() {
     overall_sectors: [],
     overall_breakdown: [],
     nodes: [],
-    handleStopHover: handleStopHover,
   });
 
 
@@ -237,7 +244,6 @@ export default function Home() {
               overall_finalists: dp.overall_finalists,
               overall_sectors: dp.overall_sectors,
               nodes: [],
-              handleStopHover: handleStopHover,
             };
   
             for (const d of dp.fair_data) {
@@ -259,7 +265,6 @@ export default function Home() {
                 breakdown: d.breakdown,
                 handleHover: handleHover,
                 handleClick: handleClick,
-                handleStopHover: handleStopHover,
               };
   
               parsedRes.nodes.push(tfd);
@@ -282,9 +287,29 @@ export default function Home() {
   const didMountBaseRef = useRef(false);
 
   useEffect(() => {
+    
 
     if (baseData.length > 0) {
-      setCurrentPath(baseData[1])
+      const index = baseData.findIndex((object) => {
+        // Here, you should provide the condition to check if the objects are equal
+        // You can use a deep comparison approach to compare object attributes
+        // For example, if your objects are plain objects, you can use a library like lodash to perform deep comparisons.
+      
+        // Example using lodash's isEqual function (install lodash via npm/yarn):
+        // const isEqual = require('lodash/isEqual');
+        // return isEqual(targetObject, object);
+      
+        // If the objects are plain and don't contain nested objects, you can use JSON.stringify:
+        // return isEqual(targetObject, object);
+      });
+
+      console.log(`current path is at ${index}`)
+      
+      if (!isActive) {
+        console.log('WTF')
+        setCurrentPath(baseData[1])
+        setIsActive(true);
+      }
     }
   }, [baseData]);
 
@@ -293,11 +318,15 @@ export default function Home() {
     console.log(currentPath)
   }, [currentPath]);
 
+  const switchPath = () => {
+
+  }
+
 
   return (
-    <PageBody>
+    <PageBody onCustomEvent={handleStopHover}>
       <ComponentA>
-        <div id='top-container' className={`w-full grid grid-cols-1`} onMouseEnter={handleStopHover}>
+        <div id='top-container' className={`w-full grid grid-cols-1`}>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
           <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}></div>
           {/* <img src='/group.svg' className="absolute top-[1px] right-[5px] z-30"></img> */}
@@ -320,10 +349,14 @@ export default function Home() {
             <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
               <Select options={countyData} oifunct={setUserInput}></Select>
             </div>
+            { isActive ? 
+            (<><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
+            <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
+          </button>
             <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
               <div id='tmp-id-a' className="flex flex-col flex-start">
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                  <div className="text-white self-center font-bold text-sm md:text-2xl px-4 py-4 self-center justify-self-center w-max-full">Difficulty*</div>
+                  <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Difficulty*</div>
                 </div>
                 {/* <p>{currentPath.overall_diff}</p> */}
                 <p>{currentPath.overall_diff}</p>
@@ -340,19 +373,24 @@ export default function Home() {
               </div>
               <div id='tmp-id-b' className="flex flex-col" onMouseEnter={handleStopHover}>
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                  <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+                  <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
                 </div>
-                <ChartComponent label_list={fetchedDataBreakdown.label_list} breakdown={fetchedDataBreakdown.breakdown} />
-
-                <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center">
-                  <div className="text-white self-center font-bold text-xs md:text-2xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                {isHovered === false ? (
+                  <ChartComponent label_list={baseCurrentPath.overall_sectors} breakdown={baseCurrentPath.overall_breakdown} />
+                ) : (
+                  <ChartComponent label_list={currentPath.overall_sectors} breakdown={currentPath.overall_breakdown} />
+                )}
+                
+                <div className='relative self-center w-5/6 h-auto'>
+                  <div className="relative rounded-3xl flex flex-col box-border bg-[#141414] w-1/2 self-center z-20 md:mb-[-15px] lg:mb-[-25px] md:ml-[-8px] lg:ml-[-20px]">
+                    <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                  </div>
+                  <ContactComponent emails={fetchedContacts.emails} names={fetchedContacts.names} />
                 </div>
-                <ContactComponent emails={fetchedContacts.emails} names={fetchedContacts.names} />
-
 
 
               </div>
-            </section>
+            </section></>) : <div className="h-[400px] w-full"></div> }
           </ComponentC>
         </div>
         {/* <img style={{visibility: 'invisible'}} src='/group.svg'></img>

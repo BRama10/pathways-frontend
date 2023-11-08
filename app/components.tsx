@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import { mapMargins, mapDimensions } from '../utils';
 import styles from './index.module.css';
 import Key from '../public/key.svg'
@@ -72,8 +72,10 @@ export interface ContactNodeProps {
 
 export function PageBody({
   children,
+  onCustomEvent,
 }: {
   children: React.ReactNode
+  onCustomEvent: (arg0: MouseEvent) => void;
 }) {
   useEffect(() => {
 
@@ -87,7 +89,7 @@ export function PageBody({
   }, []);
 
   return (
-    <main id="" className="flex min-h-max h-full max-w-screen">
+    <main id="" className="flex min-h-max h-full max-w-screen" onMouseMove={onCustomEvent}>
       {children}
     </main>
   );
@@ -108,7 +110,6 @@ export const FairNode: React.FC<FairData> = ({
   sectors,
   breakdown,
   handleHover,
-  handleStopHover,
   handleClick,
 
 }) => {
@@ -127,9 +128,8 @@ export const FairNode: React.FC<FairData> = ({
   }, []);
 
   return (
-    <div id="fair-list" className="flex w-full h-auto flex-row pb-2 md:pb-8"
+    <div id="fair-list" className="flex w-full h-auto flex-row pb-2 md:pb-8 hover:opacity-30"
       onMouseEnter={() => handleHover(num_finalists, diff, pred_diff, sectors, breakdown)}
-      onMouseLeave={() => handleStopHover}
       onClick={() => handleClick(num_finalists, diff, pred_diff, sectors, breakdown)}
     >
       <div className="w-[13%] h-auto">
@@ -229,7 +229,6 @@ export const DifficultyComponent: React.FC<PathData> = ({
   overall_sectors,
   overall_breakdown,
   nodes,
-  handleStopHover,
 }) => {
   useEffect(() => {
     const useMM = () => mapMargins('comp-lvl-1-b-child', 'comp-lvl-1-b', 'left', 'tmp-id-a-b')
@@ -265,29 +264,30 @@ export const DifficultyComponent: React.FC<PathData> = ({
   return (
     <>
       {/* <section id='diff-component' className={`flex w-full h-auto pb-[5%]`}> */}
-      <section id='diff-component' className={`grid grid-cols-diffComp grid-rows-diffRows w-full h-auto pb-[5%]` } onMouseEnter={handleStopHover}>
+      <section id='diff-component' className={`grid grid-cols-diffComp grid-rows-diffRows w-full h-auto pb-[5%]` }>
 
         {/* <section id='comp-lvl-1' className="flex w-2/3 md:w-3/4 flex-col"> */}
-        <div id='comp-lvl-1-a' className="font-bold text-[#e5be58] self-center justify-self-center text-xl md:text-4xl mb-4 md:mb-8">2023</div>
-        <div className="font-bold text-[#39c783] self-center justify-self-center text-lg md:text-4xl mb-4 md:mb-8">2024</div>
+        <div id='comp-lvl-1-a' className="row-start-1 col-start-1 font-bold text-[#e5be58] self-center justify-self-center text-xl md:text-4xl mb-4 md:mb-8">2023</div>
+        <div className="row-start-1 col-start-3 font-bold text-[#39c783] self-center justify-self-center text-lg md:text-4xl mb-4 md:mb-8">2024</div>
 
-        <div id='comp-lvl-1-b' className="grid grid-cols-1 self-start w-full">
-          <div id="comp-lvl-1-b-child" className="row-start-1 col-start-1 w-3/4 aspect-square bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
-          <div className="blur-[30px] row-start-1 col-start-1 w-3/4 bg-[#e5be58] aspect-square rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
+        <div id='comp-lvl-1-b' className="row-start-2 col-start-1 grid grid-cols-1 self-start w-full">
+          <div id="comp-lvl-1-b-child" className="row-start-1 col-start-1 w-5/6 aspect-[1/1.15] h-full bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
+          <div className="blur-[30px] row-start-1 col-start-1 w-5/6 bg-[#e5be58] aspect-[1/1.15] h-full rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
           <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{overall_diff}</div>
         </div>
 
 
         {/* <section id='comp-lvl-2' className="w-1/3 md:w-1/4 flex flex-col"> */}
-        <section id='comp-lvl-2' className="w-full flex flex-col items-center justify-self-center">
-          <div id='comp-lvl-2-a' className="grid grid-cols-1 w-full aspect-square m-0 p-0">
+        <section id='comp-lvl-2' className="row-start-2 col-start-3 w-full flex flex-col items-center justify-self-center h-full max-h-full">
+          <div id='comp-lvl-2-a' className="grid grid-cols-1 w-[90%] aspect-square m-0 p-0">
             {/*pb-4 md:pb-12 */}
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_pred_diff}</div>
           </div>
-          {/* <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-xl lg:text-3xl pb-[0.5%]">FINALISTS</div> */}
-          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8 aspect square">
+          <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-lg lg:text-2xl pb-[10%] pt-[10%]">FINALISTS</div>
+          {/* <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8 aspect square"> */}
+          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-[90%] aspect-square">
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_finalists}</div>
@@ -311,6 +311,32 @@ export const DifficultyComponent: React.FC<PathData> = ({
   );
 }
 
+function reduceArraysByBreakdown(
+  label_list: string[],
+  breakdown: number[],
+  backgroundColor: string[],
+) {
+  // Initialize empty arrays for the result
+  const reducedLabelList: string[] = [];
+  const reducedBreakdown: number[] = [];
+  const reducedBackgroundColor: string[] = [];
+
+  for (let i = 0; i < breakdown.length; i++) {
+    // Check if the breakdown value is not equal to 0
+    if (breakdown[i] !== 0) {
+      // Push corresponding elements to the reduced arrays
+      reducedLabelList.push(label_list[i]);
+      reducedBreakdown.push(breakdown[i]);
+      reducedBackgroundColor.push(backgroundColor[i]);
+    }
+  }
+
+  return {
+    reducedLabelList,
+    reducedBreakdown,
+    reducedBackgroundColor,
+  };
+}
 
 export const ChartComponent: React.FC<ChartProps> = ({
   label_list = ['Environmental Engineering',
@@ -340,24 +366,20 @@ export const ChartComponent: React.FC<ChartProps> = ({
     'No Category'],
   breakdown = [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }) => {
+  const frozen_data = reduceArraysByBreakdown(label_list, breakdown, [
+    '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
+    '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
+    '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
+    '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
+    '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
+  ]);
+
   const data = {
-    labels: label_list,
+    labels: frozen_data.reducedLabelList,
     datasets: [{
-      data: breakdown,
-      backgroundColor: [
-        '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
-        '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
-        '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
-        '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
-        '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
-      ],
-      hoverBackgroundColor: [
-        '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
-        '#4DB6AC', '#81C784', '#DCE775', '#FFF176', '#FFD54F',
-        '#FFB74D', '#FF8A65', '#A1887F', '#90A4AE', '#9E9E9E',
-        '#78909C', '#455A64', '#F48FB1', '#CE93D8', '#FFAB91',
-        '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
-      ]
+      data: frozen_data.reducedBreakdown,
+      backgroundColor: frozen_data.reducedBackgroundColor,
+      hoverBackgroundColor: frozen_data.reducedBackgroundColor
     }]
   };
 
@@ -416,8 +438,8 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
 
   return (
     <>
-      <section id='contact-component h-auto' className={`flex flex-col`}>
-        <div className={`${styles.customBg} w-5/6 h-auto m-auto rounded-[17px] flex flex-col text-white pt-[5%] pb-[5%]`}>
+      <section id='contact-component' className={`flex flex-col h-auto w-full`}>
+        <div className={`${styles.customBg} w-full h-auto m-auto rounded-[17px] flex flex-col text-white pt-[12.5%] pb-[5%]`}>
           {names.map((name, index) => (
             <div key={`${index}-div`} className="text-xs md:text-xl self-start justify-self-start pb-1 md:pb-2 pl-[15%]">
               <div key={`${index}-name`} >{name} -</div>

@@ -39,6 +39,7 @@ const CustomSelect = ({
                 ...baseStyles,
                 borderRadius: '20px',
                 background: 'inherit',
+                color: 'white',
               }),
               option : (baseStyles, state) => ({
                 ...baseStyles,
