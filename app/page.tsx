@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import {PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, DataProps, ContactNodeProps } from './components';
+import {PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, ContactNodeProps } from './components';
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
 
 
@@ -73,16 +73,11 @@ export default function Home() {
     }
   };
 
-
-  const [fetchedDataBreakdown, setFetchedDataBreakdown] = useState<ChartProps>({
-    label_list: undefined,
-    breakdown: undefined,
-  });
-
-  const [fetchedContacts, setContacts] = useState<ContactNodeProps>({
+  const [parsedContacts, setParsedContacts] = useState<ContactNodeProps>({
     names: ['Jane Doe'],
     emails: ['example@mail.com']
   });
+
   // Create a state variable to store the user's input
   const [userInput, setUserInput] = useState('');
 
@@ -169,25 +164,14 @@ export default function Home() {
   }, [baseCurrentPath]);
 
   const [count, setCount] = useState(0);
+  const [pathChange, setPathChange] = useState(false);
 
   useEffect(() => {
     // console.log(currentPath);
     // console.log(count);
-    if (currentPath.overall_diff !== 0 && count == 0) {
+    if (currentPath.overall_diff !== 0 && pathChange) {
       // console.log('here')
       // Increment the count state
-      setCount(1);
-    } else if (currentPath.overall_diff == 0) {
-      setCount(0);
-    } else {
-      setCount(2);
-    }
-  
-  }, [currentPath]);
-
-  useEffect(() => {
-    if (count == 1) {
-      // console.log('we got called ayy')
       setBaseCurrentPath({
         overall_diff: currentPath.overall_diff,
         overall_pred_diff: currentPath.overall_pred_diff,
@@ -195,8 +179,35 @@ export default function Home() {
         overall_sectors: currentPath.overall_sectors,
         overall_breakdown: currentPath.overall_breakdown,
       })
+      setPathChange(false) 
+
+    } else if (currentPath.overall_diff == 0) {
+      // setCount(0);
+    } else {
+      // setCount(2);
     }
-  }, [count]);
+
+    if (currentPath.nodes.length > 0) {
+      setParsedContacts({
+        names: currentPath.nodes.map(({ node }) => node.contact || ''),
+        emails: currentPath.nodes.map(({ node }) => node.email || ''),
+      } as ContactNodeProps)
+    }
+  
+  }, [currentPath]);
+
+  // useEffect(() => {
+  //   if (count == 1) {
+  //     // console.log('we got called ayy')
+  //     setBaseCurrentPath({
+  //       overall_diff: currentPath.overall_diff,
+  //       overall_pred_diff: currentPath.overall_pred_diff,
+  //       overall_finalists: currentPath.overall_finalists,
+  //       overall_sectors: currentPath.overall_sectors,
+  //       overall_breakdown: currentPath.overall_breakdown,
+  //     })
+  //   }
+  // }, [count]);
 
   useEffect(() => {
     // Define your API endpoint or URL
@@ -274,7 +285,7 @@ export default function Home() {
           }
           
           // console.log(baseDataCopy);
-          setCount(0);
+          setPathChange(true);
           setIsActive(true);
           setBaseData(baseDataCopy);
           // setCurrentPath(baseDataCopy[0]);
@@ -300,6 +311,7 @@ export default function Home() {
 
   useEffect(() => {
     console.log(currentPath);
+    console.log(baseCurrentPath);
   }, [currentPath]);
 
   const switchPath = () => {
@@ -307,13 +319,15 @@ export default function Home() {
       const isEqual = require('lodash/isEqual');
       return isEqual(currentPath, object);
     });
-    console.log(`index ${index}`)
+    // console.log(`index ${index}`)
     index = index+1;
 
     if (index == baseData.length) {
-      index = 1;
+      index = 0;
     } 
-
+    console.log(index);
+    console.log(baseData[index])
+    setPathChange(true);
     setCurrentPath(baseData[index])
   }
 
@@ -380,7 +394,7 @@ export default function Home() {
                   <div className="relative rounded-3xl flex flex-col box-border bg-[#141414] w-1/2 self-center z-20 md:mb-[-15px] lg:mb-[-25px] md:ml-[-8px] lg:ml-[-20px]">
                     <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
                   </div>
-                  <ContactComponent emails={fetchedContacts.emails} names={fetchedContacts.names} />
+                  <ContactComponent emails={parsedContacts.emails} names={parsedContacts.names} />
                 </div>
 
 

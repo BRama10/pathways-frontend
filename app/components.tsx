@@ -36,12 +36,12 @@ export interface FairNodeProps {
   email?: string | undefined;
 }
 
-export interface DataProps {
-  fairNodes?: FairNodeProps[] | undefined;
-  num_finalists?: number | undefined;
-  score?: number | undefined;
-  pred_score?: number | undefined;
-}
+// export interface DataProps {
+//   fairNodes?: FairNodeProps[] | undefined;
+//   num_finalists?: number | undefined;
+//   score?: number | undefined;
+//   pred_score?: number | undefined;
+// }
 
 export interface FairData {
   node: FairNodeProps;
