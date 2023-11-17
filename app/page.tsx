@@ -355,7 +355,7 @@ export default function Home() {
         </div>
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
-            <div className="mt-10 bg-slateblue bg-opacity-40 rounded-[20px] w-5/6 self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
+            <div className="bg-slateblue bg-opacity-40 rounded-[20px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
               <Select options={countyData} oifunct={setUserInput}></Select>
             </div>
             { isActive ? 
@@ -399,8 +399,10 @@ export default function Home() {
 
 
               </div>
-            </section></>) : <div className="h-[400px] w-full"></div> }
+            </section></>) : <div className="h-[20px] w-full"></div> }
           </ComponentC>
+          { isActive ? (<></>) : (<div className="h-[100px] w-full"></div>) }
+          {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}
         </div>
         {/* <img style={{visibility: 'invisible'}} src='/group.svg'></img>
         <img src='/group1.svg'></img>

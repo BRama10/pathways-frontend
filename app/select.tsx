@@ -30,6 +30,14 @@ const CustomSelect = ({
             menuPortalTarget={document.body}
             onChange={handleInputChange}
             styles={{
+              input: (baseStyles, state) => ({
+                ...baseStyles,
+                color: 'white',
+              }),
+              singleValue: (baseStyles, state) => ({
+                ...baseStyles,
+                color: 'white',
+              }),
               container: (baseStyles, state) => ({
                 ...baseStyles,
                 width: '100%',
@@ -40,6 +48,7 @@ const CustomSelect = ({
                 borderRadius: '20px',
                 background: 'inherit',
                 color: 'white',
+                height: '60px',
               }),
               option : (baseStyles, state) => ({
                 ...baseStyles,
