@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from './index.module.css';
 import {PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, ContactNodeProps } from './components';
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
+import { Tooltip } from '@nextui-org/react';
 
 
 import Select from './select'
@@ -105,6 +106,7 @@ export default function Home() {
     overall_sectors: [],
     overall_breakdown: [],
     nodes: [],
+    classifier: 'Fair Difficulty'
   });
 
 
@@ -255,6 +257,7 @@ export default function Home() {
               overall_finalists: dp.overall_finalists,
               overall_sectors: dp.overall_sectors,
               nodes: [],
+              classifier: 'Path Difficulty',
             };
   
             for (const d of dp.fair_data) {
@@ -265,6 +268,7 @@ export default function Home() {
                 email: d.email,
                 website: d.website,
                 isStart: false,
+                classifier: 'Fair Difficulty'
               };
   
               var tfd: FairData = {
@@ -303,7 +307,6 @@ export default function Home() {
     console.log(isActive)
     if (baseData.length > 0) {
       if (isActive) {
-        console.log('WTF')
         setCurrentPath(baseData[1])
       }
     }
@@ -359,28 +362,28 @@ export default function Home() {
               <Select options={countyData} oifunct={setUserInput}></Select>
             </div>
             { isActive ? 
-            (<><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
+            (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right'><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
             <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
-          </button>
+          </button></Tooltip>
             <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
               <div id='tmp-id-a' className="flex flex-col flex-start">
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                  <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Difficulty*</div>
+                  <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{ isHovered ? 'Fair Difficulty' : 'Path Difficulty' }</div>
                 </div>
                 {/* <p>{currentPath.overall_diff}</p> */}
-                <p>{currentPath.overall_diff}</p>
-                <p>{baseCurrentPath.overall_diff}</p>
+            
                 {isHovered === false ? (
-                  <DifficultyComponent overall_diff={baseCurrentPath.overall_diff} overall_breakdown={baseCurrentPath.overall_breakdown} overall_finalists={baseCurrentPath.overall_finalists} overall_pred_diff={baseCurrentPath.overall_pred_diff}  overall_sectors={baseCurrentPath.overall_sectors} nodes={currentPath.nodes}/>
+                  <DifficultyComponent overall_diff={baseCurrentPath.overall_diff} overall_breakdown={baseCurrentPath.overall_breakdown} overall_finalists={baseCurrentPath.overall_finalists} overall_pred_diff={baseCurrentPath.overall_pred_diff}  overall_sectors={baseCurrentPath.overall_sectors} nodes={currentPath.nodes} classifier="Average Difficulty"/>
                 ) : (
-                  <DifficultyComponent overall_diff={currentPath.overall_diff} overall_breakdown={currentPath.overall_breakdown} overall_finalists={currentPath.overall_finalists} overall_pred_diff={currentPath.overall_pred_diff}  overall_sectors={currentPath.overall_sectors} nodes={currentPath.nodes}/>
+                  <DifficultyComponent overall_diff={currentPath.overall_diff} overall_breakdown={currentPath.overall_breakdown} overall_finalists={currentPath.overall_finalists} overall_pred_diff={currentPath.overall_pred_diff}  overall_sectors={currentPath.overall_sectors} nodes={currentPath.nodes} classifier="Fair Difficulty"/>
                 )}
                 
 
 
 
               </div>
-              <div id='tmp-id-b' className="flex flex-col" onMouseEnter={handleStopHover}>
+              <div id='tmp-id-b' className="grid grid grid-cols-1 w-full" >
+                <div id='tmp-id-b' className="flex flex-col row-start-1 col-start-1 ">
                 <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                   <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
                 </div>
@@ -397,8 +400,24 @@ export default function Home() {
                   <ContactComponent emails={parsedContacts.emails} names={parsedContacts.names} />
                 </div>
 
-
-              </div>
+                </div>
+                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                  <img src='../Vector 3.svg' className='h-full w-auto'></img>
+                </div>
+                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                  <img src='../Vector 1.svg' className='h-full w-auto'></img>
+                </div>
+                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                  <img src='../Vector 2.svg' className='h-full w-auto'></img>
+                </div>
+                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                  <img src='../Vector 4.svg' className='h-full w-auto'></img>
+                </div>
+                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                  <img src='../Vector 5.svg' className='h-full w-auto'></img>
+                </div>
+                </div>
+              {/* </div> */}
             </section></>) : <div className="h-[20px] w-full"></div> }
           </ComponentC>
           { isActive ? (<></>) : (<div className="h-[100px] w-full"></div>) }

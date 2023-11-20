@@ -34,6 +34,7 @@ export interface FairNodeProps {
   contact?: string | undefined;
   isStart?: boolean | undefined;
   email?: string | undefined;
+  classifier: string;
 }
 
 // export interface DataProps {
@@ -63,6 +64,7 @@ export interface PathData {
   overall_breakdown: number[];
   nodes: FairData[];
   handleStopHover?: () => void;
+  classifier: string;
 }
 
 export interface ContactNodeProps {
@@ -229,6 +231,7 @@ export const DifficultyComponent: React.FC<PathData> = ({
   overall_sectors,
   overall_breakdown,
   nodes,
+  classifier,
 }) => {
   useEffect(() => {
     const useMM = () => mapMargins('comp-lvl-1-b-child', 'comp-lvl-1-b', 'left', 'tmp-id-a-b')
@@ -270,15 +273,15 @@ export const DifficultyComponent: React.FC<PathData> = ({
         <div id='comp-lvl-1-a' className="row-start-1 col-start-1 font-bold text-[#e5be58] self-center justify-self-center text-xl md:text-4xl mb-4 md:mb-8">2023</div>
         <div className="row-start-1 col-start-3 font-bold text-[#39c783] self-center justify-self-center text-lg md:text-4xl mb-4 md:mb-8">2024</div>
 
-        <div id='comp-lvl-1-b' className="row-start-2 col-start-1 grid grid-cols-1 self-start w-full">
-          <div id="comp-lvl-1-b-child" className="row-start-1 col-start-1 w-5/6 aspect-[1/1.15] h-full bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
-          <div className="blur-[30px] row-start-1 col-start-1 w-5/6 bg-[#e5be58] aspect-[1/1.15] h-full rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
+        <div id='comp-lvl-1-b' className="row-start-2 col-start-1 grid grid-cols-1 self-end justify-self-end w-full h-full">
+          <div id="comp-lvl-1-b-child" className="row-start-1 col-start-1 w-5/6 h-full bg-[#e5be58] rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
+          <div className="blur-[30px] row-start-1 col-start-1 w-5/6 bg-[#e5be58] h-full rounded-[14px] md:rounded-[31px] self-center justify-self-center"></div>
           <div className="row-start-1 col-start-1 font-bold text-white text-4xl md:text-8xl self-center justify-self-center z-10">{overall_diff}</div>
         </div>
 
 
         {/* <section id='comp-lvl-2' className="w-1/3 md:w-1/4 flex flex-col"> */}
-        <section id='comp-lvl-2' className="row-start-2 col-start-3 w-full flex flex-col items-center justify-self-center h-full max-h-full">
+        <section id='comp-lvl-2' className="row-start-2 col-start-3 w-full flex flex-col items-center justify-self-center h-full m-0 p-0">
           <div id='comp-lvl-2-a' className="grid grid-cols-1 w-[90%] aspect-square m-0 p-0">
             {/*pb-4 md:pb-12 */}
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
@@ -287,7 +290,7 @@ export const DifficultyComponent: React.FC<PathData> = ({
           </div>
           <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-lg lg:text-2xl pb-[10%] pt-[10%]">FINALISTS</div>
           {/* <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8 aspect square"> */}
-          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-[90%] aspect-square">
+          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-[90%] aspect-square self-end justify-self-end">
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_finalists}</div>
