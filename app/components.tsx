@@ -290,7 +290,7 @@ export const DifficultyComponent: React.FC<PathData> = ({
           </div>
           <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-lg lg:text-2xl pb-[10%] pt-[10%]">FINALISTS</div>
           {/* <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8 aspect square"> */}
-          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-[90%] aspect-square self-end justify-self-end">
+          <div id='comp-lvl-2-b' className="grid grid-cols-1 w-[90%] aspect-square self-end ">
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_finalists}</div>
