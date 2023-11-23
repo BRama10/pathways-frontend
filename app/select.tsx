@@ -12,6 +12,7 @@ const CustomSelect = ({
     oifunct,
 }: SelectorProps) => {
 	const id = Date.now().toString();
+  // const [inputValue, setInputValue] = useState('');
 	const [isMounted, setIsMounted] = useState(false);
 
 	// Must be deleted once
@@ -20,15 +21,21 @@ const CustomSelect = ({
 
     const handleInputChange = (input: any) => {
         console.log(input)
+        // setInputValue(input.label);
         oifunct(input.value); // Call the provided function to update userInput
     };
 
+
+  // useEffect(() => {console.log(inputValue)}, [inputValue]);
 	return isMounted ? (
 		<Select 
             id={id}
             options={options}
             menuPortalTarget={document.body}
             onChange={handleInputChange}
+            // onInputChange={(e) => {setInputValue(e)}}
+            // inputValue={inputValue}
+            // menuIsOpen={true}
             styles={{
               input: (baseStyles, state) => ({
                 ...baseStyles,

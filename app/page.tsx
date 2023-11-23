@@ -362,7 +362,7 @@ export default function Home() {
               <Select options={countyData} oifunct={setUserInput}></Select>
             </div>
             { isActive ? 
-            (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right'><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
+            (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%]"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
             <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
           </button></Tooltip>
             <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
