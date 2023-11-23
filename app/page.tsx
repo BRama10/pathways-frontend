@@ -401,19 +401,19 @@ export default function Home() {
                 </div>
 
                 </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
                   <img src='../Vector 3.svg' className='h-full w-auto'></img>
                 </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
                   <img src='../Vector 1.svg' className='h-full w-auto'></img>
                 </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
                   <img src='../Vector 2.svg' className='h-full w-auto'></img>
                 </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
                   <img src='../Vector 4.svg' className='h-full w-auto'></img>
                 </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1">
+                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
                   <img src='../Vector 5.svg' className='h-full w-auto'></img>
                 </div>
                 </div>
