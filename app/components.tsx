@@ -216,8 +216,8 @@ export function ComponentC({
 
   return (
     <section id='component-c' className={`grid-cols-1 h-auto w-5/6 grid self-center mb-[5%] pt-[3%]`}>
-      <section id='component-c-a' className={`blur-[50px] md:blur-[100px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
-      <section id='component-c-b' className={`row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%]  bg-black rounded-[54px] shadow-customA z-10 flex flex-col`}>
+      <section id='component-c-a' className={`blur-[50px] md:blur-[100px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] pb-[3%] bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
+      <section id='component-c-b' className={`row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] pb-[3%]  bg-black rounded-[54px] shadow-customA z-10 flex flex-col`}>
         {children}
       </section>
     </section>
@@ -286,14 +286,14 @@ export const DifficultyComponent: React.FC<PathData> = ({
             {/*pb-4 md:pb-12 */}
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#39c783] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
-            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_pred_diff}</div>
+            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-5xl self-center justify-self-center z-10">{overall_pred_diff}</div>
           </div>
           <div className="font-bold text-[#5da6dc] self-center text-[0.75rem] md:text-lg lg:text-2xl pb-[10%] pt-[10%]">FINALISTS</div>
           {/* <div id='comp-lvl-2-b' className="grid grid-cols-1 w-full pt-1 md:pt-8 aspect square"> */}
           <div id='comp-lvl-2-b' className="grid grid-cols-1 w-[90%] aspect-square self-end ">
             <div className=" row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
             <div className="blur-[30px] row-start-1 col-start-1 w-full aspect-square bg-[#5da6dc] rounded-[6px] md:rounded-[20px] self-center justify-self-center"></div>
-            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-3xl self-center justify-self-center z-10">{overall_finalists}</div>
+            <div className=" row-start-1 col-start-1 font-bold text-white text-lg md:text-5xl self-center justify-self-center z-10">{overall_finalists}</div>
           </div>
         </section>
       </section>

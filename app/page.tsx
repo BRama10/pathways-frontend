@@ -239,7 +239,7 @@ export default function Home() {
       const { county, state } = inp_data;
       // Define your API endpoint
       const apiUrl = `https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
-      // console.log(apiUrl)
+      console.log(apiUrl)
       // Make the GET request
       fetch(apiUrl)
         .then((response) => response.json())
@@ -358,7 +358,7 @@ export default function Home() {
         </div>
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
-            <div className="bg-slateblue bg-opacity-40 rounded-[20px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
+            <div className="bg-slateblue bg-opacity-40 rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
               <Select options={countyData} oifunct={setUserInput}></Select>
             </div>
             { isActive ? 
@@ -418,7 +418,7 @@ export default function Home() {
                 </div>
                 </div>
               {/* </div> */}
-            </section></>) : <div className="h-[20px] w-full"></div> }
+            </section></>) : <div></div> }
           </ComponentC>
           { isActive ? (<></>) : (<div className="h-[100px] w-full"></div>) }
           {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}

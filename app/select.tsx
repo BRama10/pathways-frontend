@@ -41,11 +41,11 @@ const CustomSelect = ({
               container: (baseStyles, state) => ({
                 ...baseStyles,
                 width: '100%',
-                borderRadius: '20px',
+                borderRadius: '8px',
               }),
               control : (baseStyles, state) => ({
                 ...baseStyles,
-                borderRadius: '20px',
+                borderRadius: '8px',
                 background: 'inherit',
                 color: 'white',
                 height: '60px',
