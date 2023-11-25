@@ -25,6 +25,12 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
   }, [county])
   
 
+  useEffect(() => {
+    console.log('state', state);
+    console.log('county', county);
+    console.log('options', options);
+  }, [state, county, options])
+
   return (
     <div className='flex flex-col gap-y-2 w-full h-auto '>
       <Autocomplete 
@@ -41,7 +47,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
           classNames: {
 
             inputWrapper: "bg-slateblue bg-opacity-40 focus:bg-slateblue focus:bg-opacity-40",
-  
+            innerWrapper: "text-white"
           },
         }}
         // listboxProps={{ 
@@ -68,10 +74,10 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
           </AutocompleteItem>
         ))}
       </Autocomplete>
-      {state !== null && (<Autocomplete 
+      {state !== null && state !== '' && (<Autocomplete 
         label="Choose your county" 
         className="bg-slateblue bg-opacity-40 rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md" 
-        onSelectionChange={(e) => {try{setState(e.toString())} catch{setState('')}}}
+        onSelectionChange={(e) => {try{setCounty(e.toString())} catch{setCounty('')}}}
         // onInputChange={(e) => setState(e)}
       >
         {options[state].map((option) => (
