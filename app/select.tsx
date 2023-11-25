@@ -30,7 +30,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
       <Autocomplete 
         label="Choose your state" 
         className="" 
-        onSelectionChange={(e) => setState(e.toString())}
+        onSelectionChange={(e) => {try{setState(e.toString())} catch{setState('')}}}
         classNames={{
           // base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
           // listboxWrapper: "bg-slateblue bg-opacity-40 ",
@@ -71,7 +71,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
       {state !== null && (<Autocomplete 
         label="Choose your county" 
         className="bg-slateblue bg-opacity-40 rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md" 
-        onSelectionChange={(e) => setCounty(e.toString())}
+        onSelectionChange={(e) => {try{setState(e.toString())} catch{setState('')}}}
         // onInputChange={(e) => setState(e)}
       >
         {options[state].map((option) => (
