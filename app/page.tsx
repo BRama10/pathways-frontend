@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import styles from './index.module.css';
-import {PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, ContactNodeProps } from './components';
+import { PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, ContactNodeProps } from './components';
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
-import { Tooltip } from '@nextui-org/react';
+import { Tooltip, CircularProgress, Skeleton } from '@nextui-org/react';
 
 
 import Select from './select'
@@ -63,7 +63,7 @@ export default function Home() {
 
   const handleStopHover = (e: MouseEvent) => {
     const tmpIdABElement = (e.target as HTMLElement).closest('#tmp-id-a-b');
-  
+
     if (tmpIdABElement) {
       // The target is the element with id 'tmp-id-a-b' or one of its children.
       // You can place your code here if the condition is met.
@@ -73,6 +73,7 @@ export default function Home() {
       setIsHovered(false);
     }
   };
+
 
   const [parsedContacts, setParsedContacts] = useState<ContactNodeProps>({
     names: ['Jane Doe'],
@@ -85,7 +86,9 @@ export default function Home() {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   // Create a state variable to store the county list
-  const [countyData, setCountyData] = useState<string[]>([]);
+  const [countyData, setCountyData] = useState<{
+    [key: string]: string[]
+  }>({});
   // const [baseData, setBaseData] = useState<PathData[]>([{
   //   overall_diff: 0,
   //   overall_pred_diff: 0,
@@ -121,10 +124,10 @@ export default function Home() {
   const [isHovered, setIsHovered] = useState<boolean | undefined>(undefined);
   const [isClicked, setIsClicked] = useState(false);
 
-  function handleHover(a:any, b:any, c:any, d:any, e:any) {
+  function handleHover(a: any, b: any, c: any, d: any, e: any) {
     setIsHovered(true);
     // setIsClicked(false); // Reset the click state
-    console.log('hovering')
+    // console.log('hovering')
 
     setCurrentPath((prevCurrentPath) => ({
       ...prevCurrentPath,
@@ -135,7 +138,7 @@ export default function Home() {
       overall_breakdown: e,
     }));
 
-    
+
 
     // console.log(updatedCurrentPath);
 
@@ -143,7 +146,7 @@ export default function Home() {
   };
 
   // Function to call when stopping hovering
-  
+
 
   // useEffect(() => {
   //   if(!isHovered) {
@@ -156,7 +159,7 @@ export default function Home() {
   // }, [isHovered])
 
   // Function to call when clicking on the element
-  function handleClick(a:any, b:any, c:any, d:any, e:any) {
+  function handleClick(a: any, b: any, c: any, d: any, e: any) {
     setIsClicked(!isClicked);
   };
 
@@ -167,6 +170,7 @@ export default function Home() {
 
   const [count, setCount] = useState(0);
   const [pathChange, setPathChange] = useState(false);
+
 
   useEffect(() => {
     // console.log(currentPath);
@@ -181,7 +185,7 @@ export default function Home() {
         overall_sectors: currentPath.overall_sectors,
         overall_breakdown: currentPath.overall_breakdown,
       })
-      setPathChange(false) 
+      setPathChange(false)
 
     } else if (currentPath.overall_diff == 0) {
       // setCount(0);
@@ -195,7 +199,7 @@ export default function Home() {
         emails: currentPath.nodes.map(({ node }) => node.email || ''),
       } as ContactNodeProps)
     }
-  
+
   }, [currentPath]);
 
   // useEffect(() => {
@@ -217,15 +221,17 @@ export default function Home() {
     // console.log(currentPath);
 
     // Use the fetch API to make a GET request
+    console.log('here')
     fetch(apiUrl)
       .then((response) => response.json())
       .then((result) => {
         // Update the state with the fetched data
-        const transformedResult = result.map((rs: string) => ({
-          value: rs,
-          label: rs,
-        }));
-        setCountyData(transformedResult);
+        // const transformedResult = result.map((rs: string) => ({
+        //   value: rs,
+        //   label: rs,
+        // }));
+        setCountyData(result);
+        console.log('there')
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -234,21 +240,21 @@ export default function Home() {
 
   useEffect(() => {
     const inp_data = parseLocationString(userInput);
-    
+
     if (inp_data) {
       const { county, state } = inp_data;
       // Define your API endpoint
       const apiUrl = `https://pathways-backend-git-main-hunter-ss-projects.vercel.app/get_fair_list/${county}/${state}/`;
-      console.log(apiUrl)
+      // console.log(apiUrl)
       // Make the GET request
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data: any) => {
-          
+
           // const baseDataCopy = [...baseData]; // Create a copy of the current state
           // console.log(baseDataCopy);
           const baseDataCopy = [];
-          
+
           for (const dp of data) {
             var parsedRes: PathData = {
               overall_diff: dp.overall_diff,
@@ -259,7 +265,8 @@ export default function Home() {
               nodes: [],
               classifier: 'Path Difficulty',
             };
-  
+
+
             for (const d of dp.fair_data) {
               var tfnp: FairNodeProps = {
                 title: d.name,
@@ -270,7 +277,7 @@ export default function Home() {
                 isStart: false,
                 classifier: 'Fair Difficulty'
               };
-  
+
               var tfd: FairData = {
                 node: tfnp,
                 num_finalists: d.num_finalists,
@@ -281,18 +288,20 @@ export default function Home() {
                 handleHover: handleHover,
                 handleClick: handleClick,
               };
-  
+
               parsedRes.nodes.push(tfd);
             }
-  
+
             baseDataCopy.push(parsedRes);
           }
-          
+
           // console.log(baseDataCopy);
           setPathChange(true);
           setIsActive(true);
           setBaseData(baseDataCopy);
           // setCurrentPath(baseDataCopy[0]);
+          // console.log('parsedres')
+          // console.log(baseDataCopy)
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
@@ -307,14 +316,16 @@ export default function Home() {
     console.log(isActive)
     if (baseData.length > 0) {
       if (isActive) {
-        setCurrentPath(baseData[1])
+        setCurrentPath(baseData[0])
       }
     }
   }, [baseData]);
 
   useEffect(() => {
-    console.log(currentPath);
-    console.log(baseCurrentPath);
+    // console.log('current')
+    // console.log(currentPath);
+    // console.log('basecurrent')
+    // console.log(baseCurrentPath);
   }, [currentPath]);
 
   const switchPath = () => {
@@ -323,13 +334,13 @@ export default function Home() {
       return isEqual(currentPath, object);
     });
     // console.log(`index ${index}`)
-    index = index+1;
+    index = index + 1;
 
     if (index == baseData.length) {
       index = 0;
-    } 
-    console.log(index);
-    console.log(baseData[index])
+    }
+    // console.log(index);
+    // console.log(baseData[index])
     setPathChange(true);
     setCurrentPath(baseData[index])
   }
@@ -358,69 +369,76 @@ export default function Home() {
         </div>
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
-            <div className="bg-slateblue bg-opacity-40 rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md flex flex-row items-center">
-              <Select options={countyData} oifunct={setUserInput}></Select>
+            <div className="flex flex-row items-center">
+              {countyData != {} as {
+                [key: string]: string[]
+              } ?
+                (<Select options={countyData} oifunct={(a1, a2) => { setUserInput(`${a1}, ${a2}`) }}></Select>)
+                :
+                (<CircularProgress aria-label="Loading..." />)}
             </div>
-            { isActive ? 
-            (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%]"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
-            <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
-          </button></Tooltip>
-            <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
-              <div id='tmp-id-a' className="flex flex-col flex-start">
-                <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                  <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{ isHovered ? 'Fair Difficulty' : 'Path Difficulty' }</div>
-                </div>
-                {/* <p>{currentPath.overall_diff}</p> */}
-            
-                {isHovered === false ? (
-                  <DifficultyComponent overall_diff={baseCurrentPath.overall_diff} overall_breakdown={baseCurrentPath.overall_breakdown} overall_finalists={baseCurrentPath.overall_finalists} overall_pred_diff={baseCurrentPath.overall_pred_diff}  overall_sectors={baseCurrentPath.overall_sectors} nodes={currentPath.nodes} classifier="Average Difficulty"/>
-                ) : (
-                  <DifficultyComponent overall_diff={currentPath.overall_diff} overall_breakdown={currentPath.overall_breakdown} overall_finalists={currentPath.overall_finalists} overall_pred_diff={currentPath.overall_pred_diff}  overall_sectors={currentPath.overall_sectors} nodes={currentPath.nodes} classifier="Fair Difficulty"/>
-                )}
-                
+            {isActive ?
+              (<Skeleton><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%]"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
+                <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
+              </button></Tooltip>
+                <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
+                  <div id='tmp-id-a' className="flex flex-col flex-start">
+                    <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
+                      <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{isHovered ? 'Fair Difficulty' : 'Path Difficulty'}</div>
+                    </div>
+                    {/* <p>{currentPath.overall_diff}</p> */}
+
+                    {isHovered === false ? (
+                      <DifficultyComponent overall_diff={baseCurrentPath.overall_diff} overall_breakdown={baseCurrentPath.overall_breakdown} overall_finalists={baseCurrentPath.overall_finalists} overall_pred_diff={baseCurrentPath.overall_pred_diff} overall_sectors={baseCurrentPath.overall_sectors} nodes={currentPath.nodes} classifier="Average Difficulty" />
+                    ) : (
+                      <DifficultyComponent overall_diff={currentPath.overall_diff} overall_breakdown={currentPath.overall_breakdown} overall_finalists={currentPath.overall_finalists} overall_pred_diff={currentPath.overall_pred_diff} overall_sectors={currentPath.overall_sectors} nodes={currentPath.nodes} classifier="Fair Difficulty" />
+                    )}
 
 
 
-              </div>
-              <div id='tmp-id-b' className="grid grid grid-cols-1 w-full" >
-                <div id='tmp-id-b' className="flex flex-col row-start-1 col-start-1 ">
-                <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                  <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
-                </div>
-                {isHovered === false ? (
-                  <ChartComponent label_list={baseCurrentPath.overall_sectors} breakdown={baseCurrentPath.overall_breakdown} />
-                ) : (
-                  <ChartComponent label_list={currentPath.overall_sectors} breakdown={currentPath.overall_breakdown} />
-                )}
-                
-                <div className='relative self-center w-5/6 h-auto'>
-                  <div className="relative rounded-3xl flex flex-col box-border bg-[#141414] w-1/2 self-center z-20 md:mb-[-15px] lg:mb-[-25px] md:ml-[-8px] lg:ml-[-20px]">
-                    <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+
                   </div>
-                  <ContactComponent emails={parsedContacts.emails} names={parsedContacts.names} />
-                </div>
+                  <div id='tmp-id-b' className="grid grid grid-cols-1 w-full" >
+                    <div id='tmp-id-b' className="flex flex-col row-start-1 col-start-1 z-20">
+                      <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
+                        <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+                      </div>
 
-                </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
-                  <img src='../Vector 3.svg' className='h-full w-auto'></img>
-                </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
-                  <img src='../Vector 1.svg' className='h-full w-auto'></img>
-                </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
-                  <img src='../Vector 2.svg' className='h-full w-auto'></img>
-                </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
-                  <img src='../Vector 4.svg' className='h-full w-auto'></img>
-                </div>
-                <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
-                  <img src='../Vector 5.svg' className='h-full w-auto'></img>
-                </div>
-                </div>
-              {/* </div> */}
-            </section></>) : <div></div> }
+                      {isHovered === false ? (
+                        <ChartComponent label_list={baseCurrentPath.overall_sectors} breakdown={baseCurrentPath.overall_breakdown} />
+                      ) : (
+                        <ChartComponent label_list={currentPath.overall_sectors} breakdown={currentPath.overall_breakdown} />
+                      )}
+
+
+                      <div className='relative self-center w-5/6 h-auto'>
+                        <div className="relative rounded-3xl flex flex-col box-border bg-[#141414] w-1/2 self-center z-20 md:mb-[-15px] lg:mb-[-25px] md:ml-[-8px] lg:ml-[-20px]">
+                          <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                        </div>
+                        <ContactComponent emails={parsedContacts.emails} names={parsedContacts.names} />
+                      </div>
+
+                    </div>
+                    <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
+                      <img src='../Vector 3.svg' className='h-full w-auto'></img>
+                    </div>
+                    <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
+                      <img src='../Vector 1.svg' className='h-full w-auto'></img>
+                    </div>
+                    <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
+                      <img src='../Vector 2.svg' className='h-full w-auto'></img>
+                    </div>
+                    <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
+                      <img src='../Vector 4.svg' className='h-full w-auto'></img>
+                    </div>
+                    <div id="tmp-id-b" className="row-start-1 col-start-1" style={{ justifySelf: 'end' }}>
+                      <img src='../Vector 5.svg' className='h-full w-auto'></img>
+                    </div>
+                  </div>
+                  {/* </div> */}
+                </section></Skeleton>) : <div></div>}
           </ComponentC>
-          { isActive ? (<></>) : (<div className="h-[100px] w-full"></div>) }
+          {isActive ? (<></>) : (<div className="h-[100px] w-full"></div>)}
           {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}
         </div>
         {/* <img style={{visibility: 'invisible'}} src='/group.svg'></img>

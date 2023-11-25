@@ -144,8 +144,8 @@ export const FairNode: React.FC<FairData> = ({
           <h2 className="col-start-1 row-start-1 font-bold text-[0.5rem] md:text-lg text-white">{node.code}</h2>
           <h2 className="col-start-2 row-start-1 font-normal text-[0.5rem] md:text-lg text-white">Contact: {node.contact}</h2>
         </div>
-        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline"><a href={node.website}>Website</a></h2>
-        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline"><a href={node.email}>Email</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline unchange"><a href={node.website} target='_blank'>Website</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline unchange"><a href={`mailto:${node.email}`}>Email</a></h2>
       </div>
 
     </div>
