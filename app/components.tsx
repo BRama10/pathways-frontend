@@ -305,11 +305,11 @@ export const DifficultyComponent: React.FC<PathData> = ({
         {nodes.map((fairNode, index) => (
           <FairNode key={index} {...fairNode} />
         ))}
-        <div className='w-full h-auto grid grid-cols-1 mt-0 justify-start items-start'>
-          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] lg:text-[275px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
-          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] lg:text-[275px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+        <div className='w-full h-auto grid grid-cols-1 justify-start items-start overflow-visible mt-[-12%] ml-0 pl-0'>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[145px] lg:text-[240px] blur-md self-start`}>ISEF</h1>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[145px] lg:text-[240px] self-start`}>ISEF</h1>
         </div>
-        <h3 className={`text-[0.5rem] md:text-[30px] lg:[50px] ${styles.customYellow}`}>International Science and Engineering Fair</h3>
+        <h3 className={`text-[0.5rem] md:text-[22px] lg:[50px] ${styles.customYellow} mt-[-15%] pt-0`}>International Science and Engineering Fair</h3>
       </div>
     </>
   );

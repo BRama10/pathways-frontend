@@ -32,7 +32,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
   }, [state, county, options])
 
   return (
-    <div className='flex flex-col gap-y-2 w-full h-auto mt-[5%]'>
+    <div className='flex flex-col gap-y-2 w-full h-auto'>
       <Autocomplete 
         label="Choose your state" 
         className="" 

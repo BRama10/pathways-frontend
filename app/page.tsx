@@ -493,7 +493,7 @@ export default function Home() {
                     </div>
                   </div>
                   {/* </div> */}
-                </section></>) : (<PathwaysProgressOutline />)) : <div></div>}
+                </section></>) : (<div className="w-full h-auto mt-[7%] flex items-center justify-center"><PathwaysProgressOutline /></div>)) : <div></div>}
           </ComponentC>
           {isActive ? (<></>) : (<div className="h-[100px] w-full"></div>)}
           {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}
