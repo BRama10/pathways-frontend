@@ -10,6 +10,7 @@ import { PathwaysProgressOutline } from './progress';
 
 import Select from './select'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { motion } from "framer-motion"
 
 
 interface Location {
@@ -424,7 +425,11 @@ export default function Home() {
               (isActiveLoading ? (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%] text-black"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
                 <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
               </button></Tooltip>
-                <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
+                <motion.section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1}}
+                transition={{ duration: 1 }}
+                >
                   <div id='tmp-id-a' className="flex flex-col flex-start">
                     <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
                       <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{isHovered ? 'Fair Difficulty' : 'Total Path Difficulty'}</div>
@@ -493,7 +498,7 @@ export default function Home() {
                     </div>
                   </div>
                   {/* </div> */}
-                </section></>) : (<div className="w-full h-auto mt-[7%] flex items-center justify-center"><PathwaysProgressOutline /></div>)) : <div></div>}
+                </motion.section></>) : (<div className="w-full h-auto mt-[7%] flex items-center justify-center"><PathwaysProgressOutline /></div>)) : <div></div>}
           </ComponentC>
           {isActive ? (<></>) : (<div className="h-[100px] w-full"></div>)}
           {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}

@@ -4,6 +4,7 @@ import styles from './index.module.css';
 import Key from '../public/key.svg'
 import Vector1 from '../public/group1.svg'
 import { Pie } from 'react-chartjs-2';
+import { motion } from "framer-motion"
 
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 Chart.register(ArcElement, Tooltip, Legend);
