@@ -332,8 +332,8 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    console.log(baseData);
-    console.log(isActive)
+    // console.log(baseData);
+    // console.log(isActive)
     if (baseData.length > 0) {
       if (isActive) {
         try {
@@ -393,7 +393,10 @@ export default function Home() {
         </ModalContent>
       </Modal>
       <ComponentA>
-        <div id='top-container' className={`w-full grid grid-cols-1`}>
+        <motion.div id='top-container' className={`w-full grid grid-cols-1`} initial={{ opacity: 0, y: -50, scale: 0.5 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 50, scale: 0.5 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
           <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}></div>
           {/* <img src='/group.svg' className="absolute top-[1px] right-[5px] z-30"></img> */}
@@ -410,7 +413,7 @@ export default function Home() {
 
             <h1 className="text-3xl md:text-5xl text-white font-bold text-center self-center pb-[10%] md:pb-[5%] pt-[5%] z-10">Your journey begins <span className="text-[#e5be58]">here</span>.</h1>
           </div>
-        </div>
+        </motion.div>
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
             <div className="flex flex-row items-center justify-center">
