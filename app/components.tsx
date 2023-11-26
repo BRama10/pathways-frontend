@@ -342,32 +342,34 @@ function reduceArraysByBreakdown(
 }
 
 export const ChartComponent: React.FC<ChartProps> = ({
-  label_list = ['Environmental Engineering',
-    'Plant Sciences',
-    'Computational Biology and Bioinformatics',
-    'Physics and Astronomy',
-    'Earth and Environmental Sciences',
-    'Robotics and Intelligent Machines',
-    'Biochemistry',
-    'Systems Software',
-    'Embedded Systems',
-    'Behavioral and Social Sciences',
-    'Biomedical Engineering',
-    'Materials Science',
-    'Biomedical and Health Sciences',
-    'Animal Sciences',
-    'Engineering Technology: Statics & Dynamics',
-    'Chemistry',
-    'Microbiology',
-    'Cellular and Molecular Biology',
-    'Energy: Sustainable Materials and Design',
-    'Translational Medical Science',
-    'Mathematics',
-    'Engineering Mechanics',
-    'Energy: Chemical',
-    'Energy: Physical',
-    'No Category'],
-  breakdown = [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  label_list = ['No Finalist Data'],
+  breakdown = [1],
+  // label_list = ['Environmental Engineering',
+  //   'Plant Sciences',
+  //   'Computational Biology and Bioinformatics',
+  //   'Physics and Astronomy',
+  //   'Earth and Environmental Sciences',
+  //   'Robotics and Intelligent Machines',
+  //   'Biochemistry',
+  //   'Systems Software',
+  //   'Embedded Systems',
+  //   'Behavioral and Social Sciences',
+  //   'Biomedical Engineering',
+  //   'Materials Science',
+  //   'Biomedical and Health Sciences',
+  //   'Animal Sciences',
+  //   'Engineering Technology: Statics & Dynamics',
+  //   'Chemistry',
+  //   'Microbiology',
+  //   'Cellular and Molecular Biology',
+  //   'Energy: Sustainable Materials and Design',
+  //   'Translational Medical Science',
+  //   'Mathematics',
+  //   'Engineering Mechanics',
+  //   'Energy: Chemical',
+  //   'Energy: Physical',
+  //   'No Category'],
+  // breakdown = [2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }) => {
   const frozen_data = reduceArraysByBreakdown(label_list, breakdown, [
     '#E57373', '#F06292', '#9575CD', '#64B5F6', '#4FC3F7',
@@ -377,7 +379,19 @@ export const ChartComponent: React.FC<ChartProps> = ({
     '#AED581', '#FFCC80', '#FFD180', '#FFB380', '#90CAF9'
   ]);
 
-  const data = {
+  var data;
+
+  if (label_list[0] == 'No Finalist Data') {
+    data = {
+      labels: frozen_data.reducedLabelList,
+      datasets: [{
+        data: frozen_data.reducedBreakdown,
+        backgroundColor: ['#808080'],
+        hoverBackgroundColor: ['#808080'],
+      }]
+    };
+  } else {
+  data = {
     labels: frozen_data.reducedLabelList,
     datasets: [{
       data: frozen_data.reducedBreakdown,
@@ -385,6 +399,7 @@ export const ChartComponent: React.FC<ChartProps> = ({
       hoverBackgroundColor: frozen_data.reducedBackgroundColor
     }]
   };
+}
 
   useEffect(() => {
 

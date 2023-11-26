@@ -8,7 +8,7 @@ import { Tooltip, CircularProgress } from '@nextui-org/react';
 import { PathwaysSkeleton } from './skeleton';
 
 import Select from './select'
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 
 
 interface Location {
@@ -67,10 +67,10 @@ export default function Home() {
   const [isActiveLoading, setIsActiveLoading] = useState<boolean | null>(null);
 
   function showPathways() {
-      setTimeout(() => {
+    setTimeout(() => {
       setIsActiveLoading(true);
     }, 4500);
-  } 
+  }
 
   const handleStopHover = (e: MouseEvent) => {
     const tmpIdABElement = (e.target as HTMLElement).closest('#tmp-id-a-b');
@@ -96,7 +96,7 @@ export default function Home() {
 
   const [isActive, setIsActive] = useState<boolean>(false);
 
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // Create a state variable to store the county list
   const [countyData, setCountyData] = useState<{
@@ -276,7 +276,7 @@ export default function Home() {
               overall_finalists: dp.overall_finalists,
               overall_sectors: dp.overall_sectors,
               nodes: [],
-              classifier: 'Path Difficulty',
+              classifier: 'Total Path Difficulty',
             };
 
 
@@ -372,12 +372,12 @@ export default function Home() {
   return (
     <PageBody onCustomEvent={handleStopHover}>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
+        <ModalContent className="text-black">
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Important!</ModalHeader>
               <ModalBody>
-                <p> 
+                <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Nullam pulvinar risus non risus hendrerit venenatis.
                   Pellentesque sit amet hendrerit risus, sed porttitor quam.
@@ -386,9 +386,6 @@ export default function Home() {
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
                 </Button>
               </ModalFooter>
             </>
@@ -429,7 +426,7 @@ export default function Home() {
                 <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
                   <div id='tmp-id-a' className="flex flex-col flex-start">
                     <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                      <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{isHovered ? 'Fair Difficulty' : 'Path Difficulty'}</div>
+                      <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{isHovered ? 'Fair Difficulty' : 'Total Path Difficulty'}</div>
                     </div>
                     {/* <p>{currentPath.overall_diff}</p> */}
 
@@ -450,9 +447,23 @@ export default function Home() {
                       </div>
 
                       {isHovered === false ? (
-                        <ChartComponent label_list={baseCurrentPath.overall_sectors} breakdown={baseCurrentPath.overall_breakdown} />
+                        baseCurrentPath.overall_finalists == 0 ? (
+                          <ChartComponent />
+                        ) : (
+                          <ChartComponent
+                            label_list={baseCurrentPath.overall_sectors}
+                            breakdown={baseCurrentPath.overall_breakdown}
+                          />
+                        )
                       ) : (
-                        <ChartComponent label_list={currentPath.overall_sectors} breakdown={currentPath.overall_breakdown} />
+                        currentPath.overall_finalists == 0 ? (
+                          <ChartComponent />
+                        ) : (
+                          <ChartComponent
+                            label_list={currentPath.overall_sectors}
+                            breakdown={currentPath.overall_breakdown}
+                          />
+                        )
                       )}
 
 
