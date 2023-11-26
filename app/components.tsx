@@ -140,12 +140,12 @@ export const FairNode: React.FC<FairData> = ({
       </div>
       <div id="node-a" className="flex flex-col w-full h-full">
         <h1 className={`${styles.customYellow} font-bold md:font-normal text-sm md:text-3xl pb-2 pl-4`}>{node.title}</h1>
-        <div className="grid grid-cols-2 justify-between w-full pt-px pb-px">
+        <div className="grid grid-cols-2 justify-between w-full pt-px pb-px pl-4">
           <h2 className="col-start-1 row-start-1 font-bold text-[0.5rem] md:text-lg text-white">{node.code}</h2>
           <h2 className="col-start-2 row-start-1 font-normal text-[0.5rem] md:text-lg text-white">Contact: {node.contact}</h2>
         </div>
-        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline unchange"><a href={node.website} target='_blank'>Website</a></h2>
-        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline unchange"><a href={`mailto:${node.email}`}>Email</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px pb-px underline unchange pl-4"><a href={node.website} target='_blank'>Website</a></h2>
+        <h2 className="font-normal text-[0.75rem] md:text-xl text-white pt-px underline unchange pl-4"><a href={`mailto:${node.email}`}>Email</a></h2>
       </div>
 
     </div>

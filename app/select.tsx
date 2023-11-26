@@ -38,7 +38,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
         className="" 
         onSelectionChange={(e) => {try{setState(e.toString())} catch{setState('')}}}
         classNames={{
-          // base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
           // listboxWrapper: "bg-slateblue bg-opacity-40 ",
           // listbox: "bg-slateblue bg-opacity-40 ",
           // popoverContent: "bg-slateblue bg-opacity-40 "
@@ -46,7 +46,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
         inputProps={{
           classNames: {
 
-            inputWrapper: "bg-slateblue bg-opacity-40 focus:bg-slateblue focus:bg-opacity-40",
+            inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
             innerWrapper: "text-white"
           },
         }}
@@ -76,7 +76,19 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
       </Autocomplete>
       {state !== null && state !== '' && (<Autocomplete 
         label="Choose your county" 
-        className="bg-slateblue bg-opacity-40 rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md" 
+        classNames={{
+          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+          // listboxWrapper: "bg-slateblue bg-opacity-40 ",
+          // listbox: "bg-slateblue bg-opacity-40 ",
+          // popoverContent: "bg-slateblue bg-opacity-40 "
+        }}
+        inputProps={{
+          classNames: {
+
+            inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+            input: "text-white"
+          },
+        }}
         onSelectionChange={(e) => {try{setCounty(e.toString())} catch{setCounty('')}}}
         // onInputChange={(e) => setState(e)}
       >

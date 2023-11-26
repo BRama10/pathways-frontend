@@ -4,10 +4,11 @@ import Image from 'next/image'
 import styles from './index.module.css';
 import { PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageBody, ComponentA, ComponentC, DifficultyComponent, FairNodeProps, ContactNodeProps } from './components';
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
-import { Tooltip, CircularProgress, Skeleton } from '@nextui-org/react';
-
+import { Tooltip, CircularProgress } from '@nextui-org/react';
+import { PathwaysSkeleton } from './skeleton';
 
 import Select from './select'
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 
 
 interface Location {
@@ -61,6 +62,16 @@ export default function Home() {
   //   score: 0,
   // });
 
+  //loading stats
+  const [isCountyListLoading, setCountyListLoading] = useState(true);
+  const [isActiveLoading, setIsActiveLoading] = useState<boolean | null>(null);
+
+  function showPathways() {
+      setTimeout(() => {
+      setIsActiveLoading(true);
+    }, 4500);
+  } 
+
   const handleStopHover = (e: MouseEvent) => {
     const tmpIdABElement = (e.target as HTMLElement).closest('#tmp-id-a-b');
 
@@ -84,6 +95,8 @@ export default function Home() {
   const [userInput, setUserInput] = useState('');
 
   const [isActive, setIsActive] = useState<boolean>(false);
+
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   // Create a state variable to store the county list
   const [countyData, setCountyData] = useState<{
@@ -231,7 +244,7 @@ export default function Home() {
         //   label: rs,
         // }));
         setCountyData(result);
-        console.log('there')
+        setCountyListLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -298,6 +311,7 @@ export default function Home() {
           // console.log(baseDataCopy);
           setPathChange(true);
           setIsActive(true);
+          showPathways();
           setBaseData(baseDataCopy);
           // setCurrentPath(baseDataCopy[0]);
           // console.log('parsedres')
@@ -312,11 +326,20 @@ export default function Home() {
   const didMountBaseRef = useRef(false);
 
   useEffect(() => {
+    onOpen();
+  }, [])
+
+  useEffect(() => {
     console.log(baseData);
     console.log(isActive)
     if (baseData.length > 0) {
       if (isActive) {
-        setCurrentPath(baseData[0])
+        try {
+          const temp = baseData[1].overall_diff
+          setCurrentPath(baseData[1])
+        } catch {
+          setCurrentPath(baseData[0])
+        }
       }
     }
   }, [baseData]);
@@ -348,6 +371,30 @@ export default function Home() {
 
   return (
     <PageBody onCustomEvent={handleStopHover}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Important!</ModalHeader>
+              <ModalBody>
+                <p> 
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Nullam pulvinar risus non risus hendrerit venenatis.
+                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Action
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <ComponentA>
         <div id='top-container' className={`w-full grid grid-cols-1`}>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
@@ -369,16 +416,14 @@ export default function Home() {
         </div>
         <div id='bottom' className={`${styles.bottomBackground} flex flex-col`}>
           <ComponentC>
-            <div className="flex flex-row items-center">
-              {countyData != {} as {
-                [key: string]: string[]
-              } ?
-                (<Select options={countyData} oifunct={(a1, a2) => { setUserInput(`${a1}, ${a2}`) }}></Select>)
+            <div className="flex flex-row items-center justify-center">
+              {isCountyListLoading ?
+                (<CircularProgress className="self-center justify-self-center" aria-label="Loading..." />)
                 :
-                (<CircularProgress aria-label="Loading..." />)}
+                (<Select options={countyData} oifunct={(a1, a2) => { setUserInput(`${a1}, ${a2}`) }}></Select>)}
             </div>
             {isActive ?
-              (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%]"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
+              (isActiveLoading ? (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%] text-black"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
                 <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
               </button></Tooltip>
                 <section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto">
@@ -436,7 +481,7 @@ export default function Home() {
                     </div>
                   </div>
                   {/* </div> */}
-                </section></>) : <div></div>}
+                </section></>) : (<PathwaysSkeleton />)) : <div></div>}
           </ComponentC>
           {isActive ? (<></>) : (<div className="h-[100px] w-full"></div>)}
           {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}
