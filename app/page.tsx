@@ -426,9 +426,9 @@ export default function Home() {
                 <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
               </button></Tooltip>
                 <motion.section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto"
-                initial={{ opacity: 0, scale: 0.5 }}
+                initial={{ opacity: 0, scale: 0.25 }}
                 animate={{ opacity: 1, scale: 1}}
-                transition={{ duration: 1 }}
+                transition={{ duration: 2.5 }}
                 >
                   <div id='tmp-id-a' className="flex flex-col flex-start">
                     <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
