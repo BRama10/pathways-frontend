@@ -306,9 +306,10 @@ export const DifficultyComponent: React.FC<PathData> = ({
           <FairNode key={index} {...fairNode} />
         ))}
         <div className='w-full h-auto grid grid-cols-1 mt-0 justify-start items-start'>
-          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[150px] lg:text-[200px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
-          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[150px] lg:text-[200px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] lg:text-[275px] blur-md pb-[20%] pr-[30%] self-start`}>ISEF</h1>
+          <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[200px] lg:text-[275px] pb-[20%] pr-[30%] self-start`}>ISEF</h1>
         </div>
+        <h3 className={`text-[0.5rem] md:text-[30px] lg:[50px] ${styles.customYellow}`}>International Science and Engineering Fair</h3>
       </div>
     </>
   );

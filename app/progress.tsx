@@ -19,8 +19,8 @@ export const PathwaysProgressOutline = () => {
       size="md"
       value={value}
       color="success"
-      showValueLabel={true}
-      className="w-[75%] max-w-[80%] self-center justify-self-center"
+    //   showValueLabel={true}
+      className="w-[75%] max-w-[80%] self-center justify-self-center text-white"
     />
   );
 }
