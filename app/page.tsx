@@ -377,12 +377,10 @@ export default function Home() {
         <ModalContent className="text-black">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Important!</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Welcome to Project Pathways! </ModalHeader>
               <ModalBody>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                As this is still a beta version, there may be a few bugs. If you think anything displayed by the app is incorrect, please email contact@youthresearchinitiative.org with your concerns. Enjoy!
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -426,7 +424,7 @@ export default function Home() {
                 <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
               </button></Tooltip>
                 <motion.section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto"
-                initial={{ opacity: 0, scale: 0.25 }}
+                initial={{ opacity: 0, scale: 1 }}
                 animate={{ opacity: 1, scale: 1}}
                 transition={{ duration: 2.5 }}
                 >

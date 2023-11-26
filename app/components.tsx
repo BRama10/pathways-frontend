@@ -424,7 +424,8 @@ export const ChartComponent: React.FC<ChartProps> = ({
 
   return (
     <>
-      <section id='chart-component' className={`flex w-5/6 self-center h-auto mb-20`}>
+      <section id='chart-component'   className={`flex w-5/6 self-center h-auto mb-20`}>
+
         {/* <div className="container w-auto h-auto max-height-full min-height-full"> */}
         <Pie
           data={data}

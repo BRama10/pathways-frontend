@@ -92,8 +92,14 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
           classNames: {
 
             inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
-            input: "text-white"
+            innerWrapper: "text-white",
+            input: " bg-transparent text-white/90"
           },
+        }}
+        listboxProps={{
+          classNames: {
+            list: "text-black"
+          }
         }}
         onSelectionChange={(e) => {try{setCounty(e.toString())} catch{setCounty('')}}}
         // onInputChange={(e) => setState(e)}
