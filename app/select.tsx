@@ -38,7 +38,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
         className="" 
         onSelectionChange={(e) => {try{setState(e.toString())} catch{setState('')}}}
         classNames={{
-          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 bg-white ",
           // listboxWrapper: "bg-slateblue bg-opacity-40 ",
           // listbox: "bg-slateblue bg-opacity-40 ",
           // popoverContent: "bg-slateblue bg-opacity-40 "
@@ -46,9 +46,9 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
         inputProps={{
           classNames: {
 
-            inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+            inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 bg-white  ",
             innerWrapper: "text-white",
-            input: " bg-transparent text-white/90"
+            input: " bg-transparent text-white"
           },
         }}
         listboxProps={{
@@ -83,7 +83,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
       {state !== null && state !== '' && (<Autocomplete 
         label="Choose your county" 
         classNames={{
-          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200  bg-white ",
           // listboxWrapper: "bg-slateblue bg-opacity-40 ",
           // listbox: "bg-slateblue bg-opacity-40 ",
           // popoverContent: "bg-slateblue bg-opacity-40 "
@@ -91,7 +91,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
         inputProps={{
           classNames: {
 
-            inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
+            inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200  bg-white ",
             innerWrapper: "text-white",
             input: " bg-transparent text-white/90"
           },
