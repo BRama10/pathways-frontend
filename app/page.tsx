@@ -6,6 +6,7 @@ import { PathData, FairData, ContactComponent, ChartComponent, ChartProps, PageB
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
 import { Tooltip, CircularProgress } from '@nextui-org/react';
 import { PathwaysSkeleton } from './skeleton';
+import { PathwaysProgressOutline } from './progress';
 
 import Select from './select'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
@@ -492,7 +493,7 @@ export default function Home() {
                     </div>
                   </div>
                   {/* </div> */}
-                </section></>) : (<PathwaysSkeleton />)) : <div></div>}
+                </section></>) : (<PathwaysProgressOutline />)) : <div></div>}
           </ComponentC>
           {isActive ? (<></>) : (<div className="h-[100px] w-full"></div>)}
           {/* { isActive ? <div className="h-[100px] w-full"> : <></>}  */}
