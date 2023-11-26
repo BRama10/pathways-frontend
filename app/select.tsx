@@ -32,7 +32,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
   }, [state, county, options])
 
   return (
-    <div className='flex flex-col gap-y-2 w-full h-auto '>
+    <div className='flex flex-col gap-y-2 w-full h-auto mt-[5%]'>
       <Autocomplete 
         label="Choose your state" 
         className="" 
@@ -47,8 +47,14 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
           classNames: {
 
             inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 backdrop-blur-md bg-slateblue bg-opacity-40 ",
-            innerWrapper: "text-white"
+            innerWrapper: "text-white",
+            input: " bg-transparent text-white/90"
           },
+        }}
+        listboxProps={{
+          classNames: {
+            list: "text-black"
+          }
         }}
         // listboxProps={{ 
         //   classNames: {
