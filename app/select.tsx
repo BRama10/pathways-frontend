@@ -38,7 +38,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
         className="" 
         onSelectionChange={(e) => {try{setState(e.toString())} catch{setState('')}}}
         classNames={{
-          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200 bg-white ",
+          base: "h-1/2 md:h-auto w-[70%] rounded-[8px] md:w-[90%] self-center border-[1px] border-solid border-gray-200 bg-white ",
           // listboxWrapper: "bg-slateblue bg-opacity-40 ",
           // listbox: "bg-slateblue bg-opacity-40 ",
           // popoverContent: "bg-slateblue bg-opacity-40 "
@@ -48,7 +48,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
 
             inputWrapper: "rounded-[8px] self-center border-[1px] border-solid border-gray-200 bg-white  ",
             innerWrapper: "text-white",
-            input: " bg-transparent text-white"
+            input: " bg-transparent text-white text-[12px] md:text-[14px]"
           },
         }}
         listboxProps={{
@@ -83,7 +83,7 @@ const CustomSelect = ({options, oifunct}: SelectorProps) => {
       {state !== null && state !== '' && (<Autocomplete 
         label="Choose your county" 
         classNames={{
-          base: "rounded-[8px] w-[90%] self-center border-[1px] border-solid border-gray-200  bg-white ",
+          base: "h-1/2 md:h-auto w-[70%] rounded-[8px] md:w-[90%] self-center border-[1px] border-solid border-gray-200  bg-white ",
           // listboxWrapper: "bg-slateblue bg-opacity-40 ",
           // listbox: "bg-slateblue bg-opacity-40 ",
           // popoverContent: "bg-slateblue bg-opacity-40 "

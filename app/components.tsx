@@ -216,7 +216,7 @@ export function ComponentC({
   }, []);
 
   return (
-    <section id='component-c' className={`grid-cols-1 h-auto w-5/6 grid self-center mb-[5%] pt-[3%]`}>
+    <section id='component-c' className={`grid-cols-1 h-auto w-[100%] md:w-5/6 grid self-center mb-[5%] pt-[3%]`}>
       <section id='component-c-a' className={`blur-[50px] md:blur-[100px] row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] pb-[3%] bg-[#2a279b] rounded-[54px] shadow-customA `}></section>
       <section id='component-c-b' className={`row-start-1 col-start-1 w-5/6 ml-auto mr-auto h-full max-h-full pt-[3%] pb-[3%]  bg-black rounded-[54px] shadow-customA z-10 flex flex-col`}>
         {children}
@@ -302,7 +302,7 @@ export const DifficultyComponent: React.FC<PathData> = ({
 
 
 
-      <div id='tmp-id-a-b' className="flex flex-col pt-12% ml-[50.72px] md:pt-[25%] pb-[5%]">
+      <div id='tmp-id-a-b' className="flex flex-col pt-12% ml-[15.72px] md:ml-[50.72px] md:pt-[25%] pb-[5%]">
         {nodes.map((fairNode, index) => (
           <FairNode key={index} {...fairNode} />
         ))}
@@ -462,7 +462,7 @@ export const ContactComponent: React.FC<ContactNodeProps> = ({
       <section id='contact-component' className={`flex flex-col h-auto w-full`}>
         <div className={`${styles.customBg} w-full h-auto m-auto rounded-[17px] flex flex-col text-white pt-[12.5%] pb-[5%]`}>
           {names.map((name, index) => (
-            <div key={`${index}-div`} className="text-xs md:text-xl self-start justify-self-start pb-1 md:pb-2 pl-[15%]">
+            <div key={`${index}-div`} className="text-[0.4rem] md:text-xl self-start justify-self-start pb-1 md:pb-2 pl-[15%] break-words">
               <div key={`${index}-name`} >{name} -</div>
               <div key={`${index}-contact`}>{emails.at(index)}</div>
               <br></br>

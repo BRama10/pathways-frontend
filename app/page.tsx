@@ -99,6 +99,8 @@ export default function Home() {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isChartOpen, setChartIsOpen] = useState(false);
+  // const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   // Create a state variable to store the county list
   const [countyData, setCountyData] = useState<{
@@ -380,7 +382,7 @@ export default function Home() {
               <ModalHeader className="flex flex-col gap-1">Welcome to Project Pathways! </ModalHeader>
               <ModalBody>
                 <p>
-                As this is still a beta version, there may be a few bugs. If you think anything displayed by the app is incorrect, please email contact@youthresearchinitiative.org with your concerns. Enjoy!
+                  As this is still a beta version, there may be a few bugs. If you think anything displayed by the app is incorrect, please email contact@youthresearchinitiative.org with your concerns. Enjoy!
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -392,11 +394,46 @@ export default function Home() {
           )}
         </ModalContent>
       </Modal>
+      <Modal isOpen={isChartOpen}>
+        <ModalContent className="text-black">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Pathways Project Distribution! </ModalHeader>
+              <ModalBody>
+              {isHovered === false ? (
+                          baseCurrentPath.overall_finalists == 0 ? (
+                            <ChartComponent />
+                          ) : (
+                            <ChartComponent
+                              label_list={baseCurrentPath.overall_sectors}
+                              breakdown={baseCurrentPath.overall_breakdown}
+                            />
+                          )
+                        ) : (
+                          currentPath.overall_finalists == 0 ? (
+                            <ChartComponent />
+                          ) : (
+                            <ChartComponent
+                              label_list={currentPath.overall_sectors}
+                              breakdown={currentPath.overall_breakdown}
+                            />
+                          )
+                        )}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={() => setChartIsOpen(!isChartOpen)}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <ComponentA>
         <motion.div id='top-container' className={`w-full grid grid-cols-1`} initial={{ opacity: 0, y: -50, scale: 0.5 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 50, scale: 0.5 }}
-      transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 50, scale: 0.5 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
           <div id='top-filter' className={`row-start-1 col-start-1 ${styles.topBackgroundFilter} w-full`}></div>
           <div id='top-bg' className={`row-start-1 col-start-1 ${styles.topBackground} max-h-full w-full grid grid-cols-3 grid-rows-2`}></div>
           {/* <img src='/group.svg' className="absolute top-[1px] right-[5px] z-30"></img> */}
@@ -423,16 +460,16 @@ export default function Home() {
                 (<Select options={countyData} oifunct={(a1, a2) => { setUserInput(`${a1}, ${a2}`) }}></Select>)}
             </div>
             {isActive ?
-              (isActiveLoading ? (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%] text-black"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
+              (isActiveLoading ? (<><Tooltip content="Toggles between all possible paths from your county to ISEF" placement='right' className="w-[30%] text-black"><button className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mt-[8%] md:mt-[3%] transition-transform transform hover:scale-105" onClick={switchPath}>
                 <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">Switch Path</div>
               </button></Tooltip>
                 <motion.section className="grid grid-cols-2 pt-[3%] gap-x-2 h-auto"
-                initial={{ opacity: 0, scale: 1 }}
-                animate={{ opacity: 1, scale: 1}}
-                transition={{ duration: 2.5 }}
+                  initial={{ opacity: 0, scale: 1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 2.5 }}
                 >
                   <div id='tmp-id-a' className="flex flex-col flex-start">
-                    <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
+                    <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[16%] md:mb-[5%]">
                       <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 justify-self-center w-max-full">{isHovered ? 'Fair Difficulty' : 'Total Path Difficulty'}</div>
                     </div>
                     {/* <p>{currentPath.overall_diff}</p> */}
@@ -448,35 +485,41 @@ export default function Home() {
 
                   </div>
                   <div id='tmp-id-b' className="grid grid grid-cols-1 w-full" >
+
                     <div id='tmp-id-b' className="flex flex-col row-start-1 col-start-1 z-20">
-                      <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[5%]">
-                        <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+                    <div className="rounded-3xl shadow-customB flex flex-col box-border bg-[#141414] w-auto self-center mb-[16%] md:mb-[5%]">
+                          <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Distribution Of Projects</div>
+                        </div>
+                      <div className="md:hidden flex flex-col w-full h-auto mb-[85px] mt-[75px]">
+                        <Button className="self-center justify-self-end bg-slate-400 text-white w-[80%] text-[8px]" onPress={() => setChartIsOpen(!isChartOpen)}>Display Project Distribution</Button>
+                      </div>
+                      <div className="hidden md:flex md:flex-col">
+        
+
+                        {isHovered === false ? (
+                          baseCurrentPath.overall_finalists == 0 ? (
+                            <ChartComponent />
+                          ) : (
+                            <ChartComponent
+                              label_list={baseCurrentPath.overall_sectors}
+                              breakdown={baseCurrentPath.overall_breakdown}
+                            />
+                          )
+                        ) : (
+                          currentPath.overall_finalists == 0 ? (
+                            <ChartComponent />
+                          ) : (
+                            <ChartComponent
+                              label_list={currentPath.overall_sectors}
+                              breakdown={currentPath.overall_breakdown}
+                            />
+                          )
+                        )}
                       </div>
 
-                      {isHovered === false ? (
-                        baseCurrentPath.overall_finalists == 0 ? (
-                          <ChartComponent />
-                        ) : (
-                          <ChartComponent
-                            label_list={baseCurrentPath.overall_sectors}
-                            breakdown={baseCurrentPath.overall_breakdown}
-                          />
-                        )
-                      ) : (
-                        currentPath.overall_finalists == 0 ? (
-                          <ChartComponent />
-                        ) : (
-                          <ChartComponent
-                            label_list={currentPath.overall_sectors}
-                            breakdown={currentPath.overall_breakdown}
-                          />
-                        )
-                      )}
-
-
                       <div className='relative self-center w-5/6 h-auto'>
-                        <div className="relative rounded-3xl flex flex-col box-border bg-[#141414] w-1/2 self-center z-20 md:mb-[-15px] lg:mb-[-25px] md:ml-[-8px] lg:ml-[-20px]">
-                          <div className="text-white self-center font-bold text-[0.65rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
+                        <div className="w-1/2 relative rounded-3xl flex flex-col box-border bg-[#141414] w-1/2 self-center z-20 mb-[-15px] md:mb-[-15px] ml-[-8px] lg:mb-[-25px] md:ml-[-8px] lg:ml-[-20px]">
+                          <div className="text-white self-center font-bold text-[0.45rem] md:text-[0.8rem] lg:text-xl px-4 py-4 self-center justify-self-center">Important Contacts</div>
                         </div>
                         <ContactComponent emails={parsedContacts.emails} names={parsedContacts.names} />
                       </div>
