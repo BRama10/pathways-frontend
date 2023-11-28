@@ -310,7 +310,7 @@ export const DifficultyComponent: React.FC<PathData> = ({
           <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[145px] lg:text-[240px] blur-md self-start`}>ISEF</h1>
           <h1 className={`row-start-1 col-start-1 ${styles.customYellow} text-[2.75rem] md:text-[145px] lg:text-[240px] self-start`}>ISEF</h1>
         </div>
-        <h3 className={`text-[0.5rem] md:text-[22px] lg:[50px] ${styles.customYellow} mt-[-15%] pt-0`}>International Science and Engineering Fair</h3>
+        <h3 className={`text-[0.5rem] md:text-[22px] lg:[50px] ${styles.customYellow} md:mt-[-15%] pt-0`}>International Science and Engineering Fair</h3>
       </div>
     </>
   );

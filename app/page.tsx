@@ -399,7 +399,7 @@ export default function Home() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Pathways Project Distribution! </ModalHeader>
-              <ModalBody>
+              <ModalBody className="bg-black">
               {isHovered === false ? (
                           baseCurrentPath.overall_finalists == 0 ? (
                             <ChartComponent />
